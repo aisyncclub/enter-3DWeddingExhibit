@@ -1,23 +1,23 @@
-import { useTranslation } from "react-i18next";
+import { LandingNav } from '@/components/landing/LandingNav';
+import { HeroSection } from '@/components/landing/HeroSection';
+import { FeaturesSection } from '@/components/landing/FeaturesSection';
+import { ThemePreviewSection } from '@/components/landing/ThemePreviewSection';
+import { HowItWorksSection } from '@/components/landing/HowItWorksSection';
+import { PricingSection } from '@/components/landing/PricingSection';
+import { FooterSection } from '@/components/landing/FooterSection';
 
-const Index = () => {
-  const { t } = useTranslation();
-
+const LandingPage = () => {
   return (
-    <div className="relative flex h-full w-full flex-col bg-gradient-to-b from-[#4E54C8] to-[#A8C0FF] p-[32px] max-md:pb-[32px] max-md:pl-[20px] max-md:pr-[20px] max-md:pt-[32px]">
-      <div className="text-[26px] text-white max-md:text-[22px]">
-        {t("common.appName")}
-      </div>
-      <div className="flex h-full flex-1 flex-col items-center justify-center">
-        <div className="text-center text-[48px] text-white max-md:text-[26px]">
-          {t("home.hero.title")}
-        </div>
-        <div className="text-center text-[24px] text-white max-md:text-[16px]">
-          {t("home.hero.subtitle")}
-        </div>
-      </div>
+    <div className="min-h-screen bg-deep overflow-x-hidden">
+      <LandingNav />
+      <HeroSection />
+      <FeaturesSection />
+      <ThemePreviewSection />
+      <HowItWorksSection />
+      <PricingSection />
+      <FooterSection />
     </div>
   );
 };
 
-export default Index;
+export default LandingPage;
