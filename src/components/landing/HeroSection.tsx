@@ -23,9 +23,8 @@ export function HeroSection() {
         }}
       />
 
-      {/* Glow orbs */}
-      <div className="absolute top-1/3 left-1/4 w-96 h-96 rounded-full opacity-10 blur-3xl" style={{ background: 'hsl(var(--gold))' }} />
-      <div className="absolute bottom-1/3 right-1/4 w-64 h-64 rounded-full opacity-8 blur-3xl" style={{ background: 'hsl(var(--blush))' }} />
+      {/* Subtle gold glow — left side only */}
+      <div className="absolute top-1/2 -left-32 w-80 h-80 rounded-full opacity-[0.06] blur-3xl pointer-events-none" style={{ background: 'hsl(var(--gold))' }} />
 
       <div className="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center py-16">
         {/* Left: Text content */}
