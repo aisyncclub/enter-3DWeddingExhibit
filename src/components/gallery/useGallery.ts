@@ -139,9 +139,6 @@ export function useGallery({ canvasRef, theme, photos, onPhotoClick }: UseGaller
       photoMeshes.push(photoMesh);
     }
 
-    frameGroupsRef.current = frameGroups;
-    photoMeshesRef.current = photoMeshes;
-
     // === Particles ===
     let particles: ParticleSystem | null = null;
     function setupParticles(t: ThemeKey) {
