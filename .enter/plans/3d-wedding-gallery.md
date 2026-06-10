@@ -1,137 +1,163 @@
-# 3D 웨딩 갤러리 청첩장 플랜
+# 3D 웨딩 갤러리 — 서비스 랜딩 + 데모 플랜
 
 ## Context
-"청첩장을 3D 전시회로" — 커플 사진을 Three.js 원형 갤러리에 걸고, 채플·정원·밤하늘 배경을 전환, 꽃잎/별 파티클, 드래그 둘러보기·클릭 포커스·사진 업로드를 제공하는 프론트엔드 전용 체험.
+"청첩장을 3D 전시회로" 서비스를 소개하는 랜딩페이지와, 실제 체험 가능한 3D 갤러리 데모 페이지 두 가지를 제작.
+- `/` → 서비스 랜딩 페이지 (서비스 소개, 기능 하이라이트, 데모 CTA)
+- `/demo` → 3D 웨딩 갤러리 데모 (실제 체험)
 
 ---
 
 ## Design Direction
-- **Aesthetic**: Luxury/refined — 금(Gold) + 블러시(Blush Rose) + 딥 네이비, Art Deco 라인
-- **Font**: `Cormorant Garamond` (display/heading, 세리프 우아함) + `Lato` (body, 가독성)
+- **Aesthetic**: Luxury editorial — Art Deco 금(Gold) + 딥 네이비 + 블러시(Blush Rose)
+- **Font**: `Cormorant Garamond` (display, 우아한 세리프) + `Lato` (body)
 - **Color Tokens**:
-  - `--gold: 43 74% 58%` → 골드 프레임, 강조
-  - `--blush: 347 55% 78%` → 블러시 핑크, 파티클
-  - `--cream: 38 40% 94%` → 밝은 배경 텍스트 영역
-  - `--deep: 228 32% 8%` → 전체 배경 베이스
-  - `--ivory: 42 30% 97%` → 카드/패널 배경
-- **Motion**: 프레이머 모션 stagger 인트로, Three.js OrbitControls, 부드러운 배경 전환
-- **Memorable Detail**: 원형 벽에 액자 형태로 걸린 사진들 — 실제 갤러리처럼 소프트 스포트라이트 조명
+  - `--gold: 43 74% 58%` — 골드 강조
+  - `--gold-light: 43 74% 75%`
+  - `--blush: 347 55% 78%` — 블러시 핑크
+  - `--deep: 228 32% 8%` — 다크 배경
+  - `--cream: 38 40% 94%` — 밝은 섹션 배경
+  - `--ivory: 42 30% 97%`
+  - `--shadow-gold: 0 8px 32px -8px hsl(43 74% 58% / 0.4)`
+
+---
+
+## Routes
+```
+/        → LandingPage  (서비스 소개)
+/demo    → DemoPage     (3D 갤러리 체험)
+```
 
 ---
 
 ## File Structure
 
-### New Files
+### New Pages
 ```
-src/
-  pages/Index.tsx                          ← 전체 앱 Shell (리팩터)
-  components/
-    gallery/
-      GalleryCanvas.tsx                    ← Three.js 캔버스 컴포넌트
-      useGallery.ts                        ← Three.js scene 관리 훅
-      backgrounds.ts                       ← 3가지 배경 설정 (Chapel/Garden/Night)
-      particles.ts                         ← 꽃잎·별 파티클 시스템
-    WeddingHero.tsx                        ← 커플 이름·날짜·장소 헤더
-    ThemeSwitcher.tsx                      ← 배경 테마 버튼 (3개)
-    PhotoUploader.tsx                      ← 드래그&클릭 업로드 UI
-    PhotoFocusModal.tsx                    ← 클릭 시 사진 확대 모달
-  index.css                               ← 디자인 토큰 재정의
-  tailwind.config.ts                      ← wedding 색상 확장
+src/pages/
+  Index.tsx          ← 랜딩 페이지 (전면 재작성)
+  DemoPage.tsx       ← 3D 갤러리 데모 페이지
+```
+
+### New Components
+```
+src/components/
+  landing/
+    HeroSection.tsx           ← 풀스크린 히어로 (타이틀 + CTA)
+    FeaturesSection.tsx       ← 3대 기능 소개 (3D갤러리, 배경전환, 파티클)
+    ThemePreviewSection.tsx   ← 채플/정원/밤하늘 3가지 테마 미리보기 카드
+    HowItWorksSection.tsx     ← 3단계 사용 플로우 (업로드→커스텀→공유)
+    PricingSection.tsx        ← 건당 판매 플랜 (기본/프리미엄)
+    FooterSection.tsx         ← 푸터
+  gallery/
+    GalleryCanvas.tsx         ← Three.js 캔버스
+    useGallery.ts             ← Three.js scene 훅
+    backgrounds.ts            ← Chapel/Garden/Night 설정
+    particles.ts              ← 꽃잎·별 파티클
+  WeddingHero.tsx             ← 커플 이름·날짜 오버레이
+  ThemeSwitcher.tsx           ← 테마 전환 버튼
+  PhotoUploader.tsx           ← 사진 업로드 UI
+  PhotoFocusModal.tsx         ← 사진 클릭 확대 모달
 ```
 
 ---
 
-## Implementation Details
+## Landing Page (`/`) — Sections
 
-### 1. Dependencies (추가 설치)
-- `three` + `@types/three` — 3D 렌더링
-- Google Fonts: Cormorant Garamond + Lato (index.html `<link>` 태그)
+### 1. HeroSection
+- 풀스크린, 딥 네이비 배경
+- 중앙: `"청첩장을 전시회로"` 대형 Cormorant Garamond 타이포
+- 서브: `"사진 한 장이 아니라, 3D 공간 경험으로 전달하세요"`
+- CTA 버튼: `"데모 체험하기"` → `/demo` 이동
+- 배경: Three.js 미니 파티클 (별/꽃잎 떠다니는 효과) 또는 CSS 파티클
+- framer-motion stagger reveal 애니메이션
 
-### 2. Design Tokens (index.css)
-```css
-:root {
-  --gold: 43 74% 58%;
-  --gold-light: 43 74% 75%;
-  --blush: 347 55% 78%;
-  --deep: 228 32% 8%;
-  --cream: 38 40% 94%;
-  --ivory: 42 30% 97%;
-  --shadow-gold: 0 8px 32px -8px hsl(43 74% 58% / 0.4);
-  --gradient-hero: linear-gradient(160deg, hsl(228 32% 8%), hsl(228 28% 14%));
-}
-```
-tailwind.config.ts에 `gold`, `blush`, `cream`, `deep`, `ivory` 색상 토큰 추가.
+### 2. FeaturesSection
+- 3개 피처 카드:
+  - **3D 갤러리**: 원형 전시 공간에 사진 배치
+  - **3가지 테마**: 채플·정원·밤하늘 배경 전환
+  - **파티클 효과**: 꽃잎·별 파티클 앰비언스
+- 카드 hover → 금색 글로우 테두리
 
-### 3. GalleryCanvas.tsx & useGallery.ts
-- Three.js `WebGLRenderer` → `<canvas>` ref에 마운트
-- **Photo Frames**: `PlaneGeometry(2, 2.8)` + `MeshStandardMaterial`(texture)
-  - 원형 배치: 반지름 6, 각도 분할 (최대 8장)
-  - 각 액자 주변에 얇은 금색 테두리 박스(`EdgesGeometry`)
-  - 스포트라이트(`SpotLight`) 각 액자 상단에 배치
-- **OrbitControls**: 드래그 회전, 핀치 줌, 수직 패닝 제한
-- **Raycasting**: 클릭 시 가장 가까운 사진 맞추면 `onPhotoClick(index)` 콜백
-- **Placeholder Frames**: 사진 없을 때 흰/블러시 placeholder + "+" 아이콘
+### 3. ThemePreviewSection
+- 채플 / 정원 / 밤하늘 — 3개 세로 카드
+- 각각 테마 특색 색상 그라디언트 + 아이콘
+- 클릭 시 `/demo?theme=chapel` 등으로 이동
 
-### 4. backgrounds.ts
-세 테마 정의:
-- **Chapel**: ambientLight warm (#fff3c4), fog creamy, 바닥 마블 텍스처(절차적 생성), 스테인드글라스 컬러 포인트 라이트
-- **Garden**: ambientLight soft green (#d4edda), 바닥 grass(절차적), 멀리 흐릿한 나무 실루엣 원기둥
-- **Night Sky**: ambientLight deep blue (#0a0a2e), 별 파티클 대량, 달 SpotLight, 바닥 dark stone
+### 4. HowItWorksSection
+- 3단계 타임라인:
+  1. 사진 업로드 (최대 8장)
+  2. 테마·커플 정보 설정
+  3. 링크 공유
+- 심플한 넘버링 + 아이콘
 
-### 5. particles.ts
-- Chapel/Garden: 꽃잎(blush/pink) — BufferGeometry points, 위에서 아래 중력 애니메이션
-- Night Sky: 별(white/gold) — 화면 가득 twinkle(opacity oscillation)
+### 5. PricingSection
+- 기본 (무료 체험) / 스탠다드 / 프리미엄 플랜 카드
+- 프리미엄에 골드 강조
 
-### 6. WeddingHero.tsx
-- 커플 이름 (편집 가능 input — 클릭하면 이름 수정)
-- 웨딩 날짜 + 장소 텍스트
-- Cormorant Garamond 폰트, 금색 데코 라인
-
-### 7. ThemeSwitcher.tsx
-- Chapel(교회아이콘) / Garden(잎아이콘) / Night(별아이콘) 버튼
-- 선택 시 Three.js scene 배경 전환 + 파티클 전환
-
-### 8. PhotoUploader.tsx
-- 드래그&드롭 영역 또는 파일 선택 버튼
-- `FileReader` API로 base64 로컬 URL 생성
-- 업로드된 이미지를 `Three.TextureLoader`로 갤러리 프레임에 적용
-- 최대 8장 제한
-
-### 9. PhotoFocusModal.tsx
-- 사진 클릭 시 전체화면 모달
-- 부드러운 framer-motion scale 애니메이션
-- 좌/우 화살표로 이전/다음 탐색
+### 6. FooterSection
+- 로고 + 링크 + 카피라이트
 
 ---
 
-## Key Technical Approach
+## Demo Page (`/demo`) — 3D Gallery
 
+### Layout
 ```
-WeddingPage (Index.tsx)
-├── GalleryCanvas (full-screen Three.js)
+DemoPage (full screen)
+├── GalleryCanvas (Three.js, full screen)
 │     ├── background (Chapel/Garden/Night)
-│     ├── photo frames (PlaneGeometry + textures)
+│     ├── photo frames (PlaneGeometry + textures, circular layout)
 │     ├── gold frame edges (EdgesGeometry)
 │     ├── spotlights per frame
-│     ├── OrbitControls
-│     └── particles
+│     ├── OrbitControls (drag/pinch)
+│     └── particles (petals or stars)
 ├── WeddingHero (overlay, top-center)
+│     └── 커플 이름·날짜·장소 (클릭 편집 가능)
 ├── ThemeSwitcher (overlay, bottom-center)
-├── PhotoUploader (overlay, bottom-right)
-└── PhotoFocusModal (portal, on frame click)
+├── PhotoUploader (overlay, bottom-right FAB)
+├── PhotoFocusModal (portal, on frame click)
+└── Back to Landing (overlay, top-left)
 ```
 
-All overlay UI는 `position: fixed/absolute`, Three.js canvas 위에 layering.
+### GalleryCanvas.tsx & useGallery.ts
+- Three.js `WebGLRenderer` → `<canvas>` ref 마운트
+- Photo Frames: `PlaneGeometry(2, 2.8)` + `MeshStandardMaterial`(texture)
+  - 원형 배치: 반지름 6, 최대 8장 각도 분할
+  - 금색 테두리 (`EdgesGeometry` + `LineSegments`)
+  - 각 프레임 상단 `SpotLight`
+- OrbitControls: 드래그 회전, 핀치 줌, 수직 패닝 제한
+- Raycasting: 클릭 → `onPhotoClick(index)` 콜백
+- Placeholder: 사진 없을 때 블러시 톤 + 업로드 안내
+
+### backgrounds.ts
+- **Chapel**: warm ambient (#fff3c4), creamy fog, 마블 바닥
+- **Garden**: soft green ambient, 절차적 grass 바닥, 나무 실루엣
+- **Night Sky**: deep blue ambient, 별 파티클 대량, 달 SpotLight
+
+### particles.ts
+- Chapel/Garden: 꽃잎(blush/pink) — BufferGeometry, 중력 낙하
+- Night Sky: 별(white/gold) — opacity oscillation twinkle
 
 ---
 
+## Dependencies (추가 설치)
+- `three` + `@types/three`
+
 ## Files to Modify
-- `src/pages/Index.tsx` — 전면 재작성
+- `src/pages/Index.tsx` — 랜딩 페이지로 전면 재작성
+- `src/router.tsx` — `/demo` 라우트 추가
 - `src/index.css` — 디자인 토큰 추가
-- `tailwind.config.ts` — 색상 확장
-- `index.html` — Google Fonts 링크 추가
+- `tailwind.config.ts` — gold/blush/deep/cream/ivory 색상 확장
+- `index.html` — Google Fonts (Cormorant Garamond + Lato) 링크
 
 ## Files to Create
+- `src/pages/DemoPage.tsx`
+- `src/components/landing/HeroSection.tsx`
+- `src/components/landing/FeaturesSection.tsx`
+- `src/components/landing/ThemePreviewSection.tsx`
+- `src/components/landing/HowItWorksSection.tsx`
+- `src/components/landing/PricingSection.tsx`
+- `src/components/landing/FooterSection.tsx`
 - `src/components/gallery/GalleryCanvas.tsx`
 - `src/components/gallery/useGallery.ts`
 - `src/components/gallery/backgrounds.ts`
@@ -144,9 +170,10 @@ All overlay UI는 `position: fixed/absolute`, Three.js canvas 위에 layering.
 ---
 
 ## Verification
-1. Three.js canvas가 전체 화면을 채우고 드래그로 회전되는지
-2. 3가지 배경 테마가 전환 시 부드럽게 바뀌는지
-3. 사진 업로드 후 갤러리 프레임에 텍스처 적용되는지
-4. 프레임 클릭 시 PhotoFocusModal 열리는지
-5. 꽃잎/별 파티클이 테마에 맞게 동작하는지
-6. 모바일(터치 드래그, 핀치 줌) 동작 확인
+1. `/` 랜딩 페이지 — 모든 섹션 렌더링, CTA 클릭 시 `/demo` 이동
+2. `/demo` — Three.js canvas 전체화면, 드래그 회전
+3. 배경 테마 3가지 전환 동작
+4. 사진 업로드 → 갤러리 프레임 텍스처 적용
+5. 프레임 클릭 → PhotoFocusModal 열림
+6. 파티클 테마별 동작
+7. 모바일 터치/핀치 동작
