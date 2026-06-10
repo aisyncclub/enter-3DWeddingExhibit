@@ -10,12 +10,15 @@ import type { ThemeKey } from '@/components/gallery/backgrounds';
 
 const EMPTY_PHOTOS: (string | null)[] = Array(8).fill(null);
 
-const SAMPLE_PHOTOS = [
-  'https://images.unsplash.com/photo-1519741497674-611481863552?w=400&q=80',
-  'https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=400&q=80',
-  'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=400&q=80',
-  'https://images.unsplash.com/photo-1529636798458-92182e662485?w=400&q=80',
-  null, null, null, null,
+const SAMPLE_PHOTOS: (string | null)[] = [
+  'https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100077952/35cebb25-7ff8-4b.png',
+  'https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100077952/e85d4e93-e5c7-47.png',
+  'https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100077952/abc7c6d8-7010-41.png',
+  'https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100077952/3211278c-2ddc-43.png',
+  'https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100077952/e84c9415-3a76-4a.png',
+  'https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100077952/5e49acda-11ff-4f.png',
+  'https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100077952/a90ff767-0071-4e.png',
+  'https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100077952/15be2420-ffdc-44.png',
 ];
 
 export default function DemoPage() {
@@ -65,8 +68,17 @@ export default function DemoPage() {
 
       {/* ── Cover Section ── */}
       <section className="relative pt-14 min-h-screen flex flex-col items-center justify-center px-6 text-center overflow-hidden">
-        {/* Decorative background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-blush-light/20 via-ivory to-ivory" />
+        {/* Full-bleed hero photo */}
+        <div className="absolute inset-0">
+          <img
+            src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100077952/35cebb25-7ff8-4b.png"
+            alt=""
+            crossOrigin="anonymous"
+            className="w-full h-full object-cover object-top"
+          />
+          {/* Gradient overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/30 to-ivory" />
+        </div>
 
         {/* Decorative line ornament */}
         <motion.div
@@ -84,7 +96,7 @@ export default function DemoPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="text-muted-foreground text-sm tracking-[0.2em] uppercase mb-4"
+          className="relative text-white/70 text-sm tracking-[0.2em] uppercase mb-4"
         >
           Wedding Invitation
         </motion.p>
@@ -93,18 +105,18 @@ export default function DemoPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="text-5xl md:text-7xl font-bold tracking-tight mb-3"
+          className="relative text-5xl md:text-7xl font-bold tracking-tight mb-3"
         >
-          <span className="text-foreground">민준</span>
+          <span className="text-white drop-shadow-lg">민준</span>
           <span className="mx-4 text-gold text-3xl md:text-5xl font-light">&amp;</span>
-          <span className="text-foreground">서아</span>
+          <span className="text-white drop-shadow-lg">서아</span>
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="text-muted-foreground text-base mt-4 mb-8 leading-relaxed"
+          className="relative text-white/60 text-base mt-4 mb-8 leading-relaxed"
         >
           Kim Min-jun &amp; Lee Seo-ah
         </motion.p>
@@ -113,7 +125,7 @@ export default function DemoPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="flex flex-col items-center gap-2 text-sm text-muted-foreground"
+          className="relative flex flex-col items-center gap-2 text-sm text-white/70"
         >
           <div className="flex items-center gap-2">
             <Calendar size={14} className="text-gold" />
@@ -134,7 +146,7 @@ export default function DemoPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2 }}
-          className="absolute bottom-8 flex flex-col items-center gap-1 text-muted-foreground/50 text-xs animate-bounce"
+          className="absolute bottom-8 flex flex-col items-center gap-1 text-white/40 text-xs animate-bounce z-10"
         >
           <ChevronDown size={18} />
           갤러리 보기
