@@ -19,7 +19,8 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Pretendard Variable', 'Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
-        display: ['Playfair Display', 'Georgia', 'serif'],
+        display: ['Cormorant Garamond', 'Playfair Display', 'Georgia', 'serif'],
+        playfair: ['Playfair Display', 'Georgia', 'serif'],
       },
       colors: {
         border: 'hsl(var(--border))',
