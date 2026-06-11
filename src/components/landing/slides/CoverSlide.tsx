@@ -43,14 +43,14 @@ export function CoverSlide({ active }: CoverSlideProps) {
             </div>
             <div className="overflow-hidden">
               <motion.h1 variants={maskReveal}
-                className="font-display text-[clamp(3.5rem,8vw,7rem)] leading-[0.92] font-black text-deep"
+                className="font-sans text-[clamp(3rem,7.5vw,6.5rem)] leading-[1.0] font-black text-deep"
               >
                 청첩장을
               </motion.h1>
             </div>
             <div className="overflow-hidden">
               <motion.h1 variants={maskReveal}
-                className="font-display italic text-[clamp(3.5rem,8vw,7rem)] leading-[0.92] font-black text-caramel"
+                className="font-sans text-[clamp(3rem,7.5vw,6.5rem)] leading-[1.0] font-black text-caramel"
               >
                 전시회로
               </motion.h1>
