@@ -263,34 +263,34 @@ export default function DemoPage() {
                   <img src={PHOTOS[0]} alt="" crossOrigin="anonymous" className="w-full h-full object-cover object-center" />
                 </motion.div>
                 <div className="absolute inset-0"
-                  style={{ background: `linear-gradient(to bottom, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.15) 45%, ${t.coverEnd}F8 100%)` }} />
+                  style={{ background: `linear-gradient(to bottom, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.08) 28%, rgba(0,0,0,0.52) 62%, rgba(0,0,0,0.78) 82%, ${t.coverEnd} 100%)` }} />
 
                 <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1, duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-                  className="relative z-10 text-center px-8 w-full"
+                  className="relative z-10 text-center px-6 w-full"
                 >
                   <div className="flex items-center justify-center gap-3 mb-5">
-                    <div className="h-px w-12" style={{ backgroundColor: 'rgba(255,255,255,0.35)' }} />
-                    <Heart size={9} fill="rgba(255,255,255,0.6)" color="transparent" />
-                    <div className="h-px w-12" style={{ backgroundColor: 'rgba(255,255,255,0.35)' }} />
+                    <div className="h-px w-12" style={{ backgroundColor: 'rgba(255,255,255,0.45)' }} />
+                    <Heart size={9} fill="rgba(255,255,255,0.75)" color="transparent" />
+                    <div className="h-px w-12" style={{ backgroundColor: 'rgba(255,255,255,0.45)' }} />
                   </div>
-                  <p className="font-sans text-[10px] tracking-[0.55em] uppercase mb-4" style={{ color: 'rgba(255,255,255,0.55)' }}>
+                  <p className="font-sans text-[10px] tracking-[0.55em] uppercase mb-4" style={{ color: 'rgba(255,255,255,0.7)' }}>
                     Wedding Invitation
                   </p>
-                  <h1 className="leading-[0.88] mb-3" style={{
+                  <h1 className="leading-[0.9] mb-3 whitespace-nowrap" style={{
                     fontFamily: t.headingFamily, fontWeight: 400,
-                    fontSize: 'clamp(3rem, 12vw, 5.5rem)', color: '#FFFFFF',
-                    letterSpacing: '-0.01em',
+                    fontSize: 'clamp(2.6rem, 9.5vw, 4rem)', color: '#FFFFFF',
+                    letterSpacing: '0.02em',
                   }}>
                     지훈 &amp; 서연
                   </h1>
-                  <p className="font-sans text-[11px] tracking-[0.4em] mb-6" style={{ color: 'rgba(255,255,255,0.45)' }}>
+                  <p className="font-sans text-[11px] tracking-[0.4em] mb-6" style={{ color: 'rgba(255,255,255,0.65)' }}>
                     JIHOON &amp; SEOYEON
                   </p>
-                  <p className="font-sans text-[13px] leading-relaxed mb-5" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                  <p className="font-sans text-[13px] leading-relaxed mb-5" style={{ color: 'rgba(255,255,255,0.82)' }}>
                     서로의 계절이 되어,<br />이제 하나의 집을 이룹니다.
                   </p>
-                  <p className="text-sm" style={{ fontFamily: t.headingFamily, color: 'rgba(255,255,255,0.5)', letterSpacing: '0.15em' }}>
+                  <p className="text-sm" style={{ fontFamily: t.headingFamily, color: 'rgba(255,255,255,0.65)', letterSpacing: '0.15em' }}>
                     2026 · 10 · 24
                   </p>
                 </motion.div>
