@@ -4,33 +4,36 @@ import { MarqueeText } from '../MarqueeText';
 
 interface ThemesSlideProps { active: boolean; }
 
-const THEMES = [
+const TEMPLATES = [
   {
-    key: 'chapel',
-    label: 'Chapel',
-    kr: '채플',
-    desc: '따뜻한 황금빛 조명과 스테인드글라스 분위기',
+    key: 'blanc',
+    label: 'Blanc',
+    kr: '블랑',
+    desc: '순백의 미니멀 감성. 여백으로 말하는 절제된 아름다움.',
     image: 'https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100077952/fc8b9a72-a323-40.png',
-    tag: '꽃잎 파티클',
-    swatch: '#C4956A',
+    swatch: '#EBEBEB',
+    swatchLabel: '순백 미니멀',
+    textColor: '#2B1D15',
   },
   {
-    key: 'garden',
-    label: 'Garden',
-    kr: '정원',
-    desc: '싱그러운 초록빛 자연 속 야외 갤러리',
+    key: 'lumiere',
+    label: 'Lumière',
+    kr: '뤼미에르',
+    desc: '따뜻한 크림 웜톤. 빛처럼 포근하고 우아한 분위기.',
     image: 'https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100077952/3211278c-2ddc-43.png',
-    tag: '꽃잎 파티클',
-    swatch: '#8AAF7A',
+    swatch: '#C4956A',
+    swatchLabel: '크림 웜톤',
+    textColor: '#2B1D15',
   },
   {
-    key: 'night',
-    label: 'Night Sky',
-    kr: '밤하늘',
-    desc: '깊은 네이비 하늘, 반짝이는 별빛 아래',
+    key: 'nuit',
+    label: 'Nuit',
+    kr: '뉘이',
+    desc: '다크 엘레강스. 깊고 고요한 밤처럼 차분한 럭셔리.',
     image: 'https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100077952/e84c9415-3a76-4a.png',
-    tag: '별 파티클',
-    swatch: '#6070A8',
+    swatch: '#C9A84C',
+    swatchLabel: '다크 엘레강스',
+    textColor: '#F5EFE6',
   },
 ];
 
@@ -46,25 +49,25 @@ export function ThemesSlide({ active }: ThemesSlideProps) {
       {/* Top label */}
       <div className="flex items-end justify-between px-8 pt-14 pb-5 border-b border-deep/8 shrink-0">
         <div>
-          <p className="font-sans text-[11px] tracking-[0.3em] uppercase text-caramel mb-1">Theme Collection</p>
-          <h2 className="font-display text-3xl font-black text-deep">Three Worlds</h2>
+          <p className="font-sans text-[11px] tracking-[0.3em] uppercase text-caramel mb-1">Template Collection</p>
+          <h2 className="font-display text-3xl font-black text-deep">Three Styles</h2>
         </div>
-        <p className="font-sans text-xs text-deep/35 tracking-wide">클릭해서 체험하기</p>
+        <p className="font-sans text-xs text-deep/35 tracking-wide">클릭해서 미리보기</p>
       </div>
 
       {/* Marquee */}
       <MarqueeText
-        text="Chapel · Garden · Night Sky · 채플 · 정원 · 밤하늘"
+        text="Blanc · Lumière · Nuit · 블랑 · 뤼미에르 · 뉘이"
         className="text-[11px] tracking-[0.2em] uppercase text-deep/15 font-sans border-b border-deep/8 py-2"
         speed="slow"
       />
 
       {/* Three columns */}
       <div className="flex flex-1 min-h-0">
-        {THEMES.map((theme, i) => (
+        {TEMPLATES.map((tpl, i) => (
           <motion.button
-            key={theme.key}
-            onClick={() => navigate(`/demo?theme=${theme.key}`)}
+            key={tpl.key}
+            onClick={() => navigate(`/demo?template=${tpl.key}`)}
             className="flex-1 flex flex-col overflow-hidden border-r border-deep/8 last:border-r-0 group text-left relative"
           >
             {/* Photo */}
@@ -75,16 +78,16 @@ export function ThemesSlide({ active }: ThemesSlideProps) {
               className="flex-1 overflow-hidden relative"
             >
               <img
-                src={theme.image}
-                alt={theme.kr}
+                src={tpl.image}
+                alt={tpl.kr}
                 crossOrigin="anonymous"
                 className="w-full h-full object-cover transition-transform duration-[6000ms] group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-deep/60 via-transparent to-transparent" />
-              {/* Swatch dot */}
+              {/* Swatch */}
               <div
-                className="absolute top-4 right-4 w-5 h-5 rounded-full border-2 border-white/40"
-                style={{ background: theme.swatch }}
+                className="absolute top-4 right-4 w-5 h-5 border-2 border-white/40"
+                style={{ background: tpl.swatch }}
               />
             </motion.div>
 
@@ -92,14 +95,14 @@ export function ThemesSlide({ active }: ThemesSlideProps) {
             <div className="px-5 py-5 bg-cream border-t border-deep/8">
               <div className="flex items-start justify-between mb-2">
                 <div>
-                  <p className="font-sans text-[10px] tracking-[0.3em] uppercase text-deep/40 mb-0.5">{theme.label}</p>
-                  <h3 className="font-display font-bold text-xl text-deep">{theme.kr}</h3>
+                  <p className="font-sans text-[10px] tracking-[0.3em] uppercase text-deep/40 mb-0.5">{tpl.label}</p>
+                  <h3 className="font-display font-bold text-xl text-deep">{tpl.kr}</h3>
                 </div>
                 <span className="font-sans text-[10px] tracking-wider uppercase text-caramel/70 border border-caramel/25 px-2 py-0.5 mt-1">
-                  {theme.tag}
+                  {tpl.swatchLabel}
                 </span>
               </div>
-              <p className="font-sans text-xs text-deep/45 leading-relaxed">{theme.desc}</p>
+              <p className="font-sans text-xs text-deep/45 leading-relaxed">{tpl.desc}</p>
             </div>
           </motion.button>
         ))}

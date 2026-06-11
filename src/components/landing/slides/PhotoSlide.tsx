@@ -39,7 +39,7 @@ export function PhotoSlide({ active }: PhotoSlideProps) {
             animate={active ? 'visible' : 'hidden'}
             className="font-display font-black text-2xl text-deep"
           >
-            Our Story
+            Sample Photos
           </motion.h2>
         </div>
         <div className="overflow-hidden">
@@ -107,14 +107,14 @@ export function PhotoSlide({ active }: PhotoSlideProps) {
             className="font-display italic font-bold text-deep/12 text-xl tracking-widest"
             style={{ writingMode: 'vertical-rl' }}
           >
-            Memories
+            Invitation
           </span>
         </div>
       </div>
 
       {/* Marquee bottom */}
       <MarqueeText
-        text="Drag to explore · Click to enlarge · Upload your photos"
+        text="나만의 사진으로 완성하는 청첩장 · Upload Your Photos · Customizable"
         className="text-[11px] tracking-[0.15em] uppercase text-deep/20 font-sans border-t border-deep/8 py-2"
         speed="slow"
       />

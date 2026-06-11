@@ -23,7 +23,7 @@ export function ConceptSlide({ active }: ConceptSlideProps) {
           className="font-sans text-[10px] tracking-[0.4em] uppercase text-deep/30 whitespace-nowrap"
           style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
         >
-          Concept 01 — 3D Space
+          Concept 01 — Digital Invitation
         </span>
       </div>
 
@@ -31,7 +31,7 @@ export function ConceptSlide({ active }: ConceptSlideProps) {
       <div className="flex-1 flex flex-col justify-center px-12 md:px-16 border-r border-deep/8">
         <p className="font-sans text-[11px] tracking-[0.3em] uppercase text-caramel mb-8">The Concept</p>
 
-        {['Beyond the', 'Invitation'].map((line, i) => (
+        {['Beyond the', 'Card'].map((line, i) => (
           <div key={i} className="overflow-hidden">
             <motion.h2
               custom={i}
@@ -55,8 +55,8 @@ export function ConceptSlide({ active }: ConceptSlideProps) {
           >
             청첩장은 단순한 안내문이 아닙니다.<br />
             두 사람의 이야기를 담은 공간입니다.<br />
-            3D 갤러리로 추억을 전시하고,<br />
-            받는 분에게 특별한 경험을 선사하세요.
+            3가지 아름다운 템플릿 중 하나를 골라<br />
+            나만의 디지털 청첩장을 완성하세요.
           </motion.p>
         </div>
 
@@ -69,8 +69,8 @@ export function ConceptSlide({ active }: ConceptSlideProps) {
         >
           <div className="flex items-center gap-6">
             {[
-              { num: '3', label: '가지 테마' },
-              { num: '8', label: '장 사진' },
+              { num: '3', label: '가지 템플릿' },
+              { num: '5', label: '분 제작' },
               { num: '1', label: '개 링크' },
             ].map((s) => (
               <div key={s.label} className="border-t border-deep/15 pt-4 pr-6">

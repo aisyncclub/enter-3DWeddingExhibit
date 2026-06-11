@@ -3,9 +3,15 @@ import { motion } from 'framer-motion';
 interface ExperienceSlideProps { active: boolean; }
 
 const STEPS = [
-  { num: '01', title: '사진 업로드', desc: '커플 사진 최대 8장을 업로드. 드래그 앤 드롭으로 간편하게.' },
-  { num: '02', title: '테마 선택', desc: '채플·정원·밤하늘 중 분위기에 맞는 공간을 선택하세요.' },
-  { num: '03', title: '링크 공유', desc: '생성된 링크를 카카오톡·문자·SNS로. 받는 분이 바로 3D 체험.' },
+  { num: '01', title: '템플릿 선택', desc: 'Blanc · Lumière · Nuit, 세 가지 스타일 중 나에게 맞는 분위기를 고르세요.' },
+  { num: '02', title: '정보 입력', desc: '이름, 날짜, 장소, 메시지, 사진을 입력하면 청첩장이 완성됩니다.' },
+  { num: '03', title: '링크 공유', desc: '생성된 링크를 카카오톡·문자·SNS로. 받는 분이 모바일에서 바로 확인.' },
+];
+
+const FEATURES = [
+  { label: '모바일 최적화', desc: '어떤 기기에서도 아름답게' },
+  { label: '즉시 발송', desc: '링크 하나로 간편 공유' },
+  { label: '커스터마이징', desc: '사진·텍스트 자유롭게' },
 ];
 
 export function ExperienceSlide({ active }: ExperienceSlideProps) {
@@ -39,7 +45,7 @@ export function ExperienceSlide({ active }: ExperienceSlideProps) {
             animate={active ? 'visible' : 'hidden'}
             className="font-display font-black text-[clamp(2.5rem,5vw,4.5rem)] leading-[0.95] text-deep"
           >
-            The Experience
+            5분 제작
           </motion.h2>
         </div>
 
@@ -50,7 +56,7 @@ export function ExperienceSlide({ active }: ExperienceSlideProps) {
               variants={maskReveal(0.2 + i * 0.15)}
               initial="hidden"
               animate={active ? 'visible' : 'hidden'}
-              className="flex gap-8 py-7 border-b border-deep/8 last:border-0"
+              className="flex gap-8 py-6 border-b border-deep/8 last:border-0"
             >
               <span className="font-display font-black text-[clamp(2rem,3.5vw,3rem)] text-deep/15 w-14 shrink-0 leading-none pt-1">
                 {step.num}
@@ -62,21 +68,33 @@ export function ExperienceSlide({ active }: ExperienceSlideProps) {
             </motion.div>
           ))}
         </div>
+
+        {/* Features row */}
+        <motion.div
+          variants={maskReveal(0.6)}
+          initial="hidden"
+          animate={active ? 'visible' : 'hidden'}
+          className="flex gap-0 mt-6 border-t border-deep/8 pt-6"
+        >
+          {FEATURES.map((f, i) => (
+            <div key={f.label} className={`flex-1 ${i > 0 ? 'border-l border-deep/8 pl-5' : ''}`}>
+              <p className="font-sans text-[11px] tracking-[0.15em] uppercase text-caramel">{f.label}</p>
+              <p className="font-sans text-xs text-deep/40 mt-0.5">{f.desc}</p>
+            </div>
+          ))}
+        </motion.div>
       </div>
 
-      {/* Right: "THE EXPERIENCE" vertical text + photo */}
+      {/* Right: photo + label */}
       <div className="flex-1 flex flex-col">
-        {/* Vertical label */}
         <div className="flex items-center justify-center py-6 border-b border-deep/8">
           <span
             className="font-display italic font-bold text-[clamp(1.2rem,2vw,1.8rem)] text-deep/15 tracking-widest"
             style={{ writingMode: 'vertical-rl' }}
           >
-            3D Gallery
+            Digital Invitation
           </span>
         </div>
-
-        {/* Photo */}
         <motion.div
           variants={imgReveal}
           initial="hidden"

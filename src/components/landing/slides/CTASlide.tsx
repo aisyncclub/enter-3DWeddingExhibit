@@ -6,9 +6,9 @@ import { MarqueeText } from '../MarqueeText';
 interface CTASlideProps { active: boolean; }
 
 const PLANS = [
-  { name: '무료 체험', price: '₩0', note: '데모 미리보기', highlight: false },
-  { name: '스탠다드', price: '₩29,000', note: '청첩장 1건 · 링크 90일', highlight: true },
-  { name: '프리미엄', price: '₩59,000', note: '커스텀 · 링크 1년', highlight: false },
+  { name: '무료 체험', price: '₩0', note: '샘플 미리보기', highlight: false },
+  { name: '스탠다드', price: '₩29,000', note: '청첩장 1건 · 90일', highlight: true },
+  { name: '프리미엄', price: '₩59,000', note: '커스텀 · 1년', highlight: false },
 ];
 
 export function CTASlide({ active }: CTASlideProps) {
@@ -22,7 +22,7 @@ export function CTASlide({ active }: CTASlideProps) {
     <div className="w-screen h-screen bg-deep flex flex-col overflow-hidden select-none pt-12">
       {/* Top marquee */}
       <MarqueeText
-        text="3D Wedding Gallery · 청첩장을 전시회로 · Invitique · Experience Now"
+        text="Digital Wedding Invitation · 나만의 청첩장 만들기 · Invitique · 5분 완성"
         className="text-[11px] tracking-[0.2em] uppercase text-cream/15 font-sans border-b border-cream/8 py-3"
       />
 
@@ -40,14 +40,14 @@ export function CTASlide({ active }: CTASlideProps) {
             </motion.p>
           </div>
 
-          <div className="overflow-hidden mb-2">
+          <div className="overflow-hidden mb-1">
             <motion.h2
               variants={maskReveal(0.2)}
               initial="hidden"
               animate={active ? 'visible' : 'hidden'}
-              className="font-display font-black italic text-[clamp(3rem,8vw,7rem)] leading-[0.9] text-cream"
+              className="font-sans font-black text-[clamp(2.8rem,7vw,6.5rem)] leading-[0.92] text-cream"
             >
-              Experience
+              나만의
             </motion.h2>
           </div>
           <div className="overflow-hidden mb-8">
@@ -55,9 +55,9 @@ export function CTASlide({ active }: CTASlideProps) {
               variants={maskReveal(0.3)}
               initial="hidden"
               animate={active ? 'visible' : 'hidden'}
-              className="font-display font-black text-[clamp(3rem,8vw,7rem)] leading-[0.9] text-caramel"
+              className="font-sans font-black text-[clamp(2.8rem,7vw,6.5rem)] leading-[0.92] text-caramel"
             >
-              Now
+              청첩장
             </motion.h2>
           </div>
 
@@ -71,7 +71,7 @@ export function CTASlide({ active }: CTASlideProps) {
               onClick={() => navigate('/demo')}
               className="inline-flex items-center gap-3 border border-cream/25 text-cream px-8 py-3.5 text-sm font-semibold tracking-wide font-sans hover:bg-cream hover:text-deep transition-all duration-300 group"
             >
-              데모 체험하기
+              샘플 청첩장 보기
               <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
             </button>
           </motion.div>
@@ -83,7 +83,7 @@ export function CTASlide({ active }: CTASlideProps) {
             animate={active ? 'visible' : 'hidden'}
             className="grid grid-cols-3 gap-0 border border-cream/10"
           >
-            {PLANS.map((plan, i) => (
+            {PLANS.map((plan) => (
               <div
                 key={plan.name}
                 className={`px-6 py-5 text-center border-r border-cream/10 last:border-r-0 ${

@@ -52,13 +52,14 @@ export function CoverSlide({ active }: CoverSlideProps) {
               <motion.h1 variants={maskReveal}
                 className="font-sans text-[clamp(3rem,7.5vw,6.5rem)] leading-[1.0] font-black text-caramel"
               >
-                전시회로
+                아름답게
               </motion.h1>
             </div>
-            <div className="overflow-hidden mt-4">
+            <div className="overflow-hidden mt-6">
               <motion.p variants={maskReveal} className="text-deep/55 text-sm leading-relaxed max-w-xs font-sans">
-                3D 갤러리 공간에 사진을 걸고,<br />
-                링크 하나로 전달하는 새로운 청첩장
+                세상에 하나뿐인 디지털 청첩장,<br />
+                3가지 템플릿으로 아름답게 만들고<br />
+                링크 하나로 전달하세요.
               </motion.p>
             </div>
             <div className="overflow-hidden mt-8">
@@ -79,7 +80,7 @@ export function CoverSlide({ active }: CoverSlideProps) {
 
           {/* Marquee at bottom */}
           <MarqueeText
-            text="Wedding Gallery Experience"
+            text="Digital Wedding Invitation"
             className="text-[11px] tracking-[0.15em] uppercase text-deep/25 font-sans"
           />
         </div>
@@ -104,7 +105,7 @@ export function CoverSlide({ active }: CoverSlideProps) {
 
           {/* Bottom-left photo tag */}
           <div className="absolute bottom-6 left-6 z-10">
-            <p className="font-sans text-[10px] tracking-[0.25em] uppercase text-white/60">Wedding Gallery</p>
+            <p className="font-sans text-[10px] tracking-[0.25em] uppercase text-white/60">Sample Invitation</p>
           </div>
         </div>
       </div>

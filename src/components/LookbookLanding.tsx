@@ -9,7 +9,7 @@ import { PhotoSlide } from './landing/slides/PhotoSlide';
 import { CTASlide } from './landing/slides/CTASlide';
 
 const SLIDE_COUNT = 6;
-const SLIDE_LABELS = ['Cover', 'Concept', 'Themes', 'Experience', 'Gallery', 'Launch'];
+const SLIDE_LABELS = ['Cover', 'Concept', 'Templates', 'Features', 'Gallery', 'Launch'];
 
 export function LookbookLanding() {
   const [current, setCurrent] = useState(0);
