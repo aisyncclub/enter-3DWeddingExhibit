@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowLeft, Calendar, MapPin, Clock, Share2, Copy, Check,
-  ChevronDown, Heart, Sparkles, Navigation, CreditCard,
+  ChevronDown, ChevronRight, Heart, Sparkles, Navigation, CreditCard,
 } from 'lucide-react';
 import { FilmGrain } from '@/components/landing/FilmGrain';
 
