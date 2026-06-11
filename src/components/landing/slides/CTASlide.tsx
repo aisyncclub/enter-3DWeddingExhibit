@@ -19,7 +19,7 @@ export function CTASlide({ active }: CTASlideProps) {
   });
 
   return (
-    <div className="w-screen h-screen bg-deep flex flex-col overflow-hidden select-none">
+    <div className="w-screen h-screen bg-deep flex flex-col overflow-hidden select-none pt-12">
       {/* Top marquee */}
       <MarqueeText
         text="3D Wedding Gallery · 청첩장을 전시회로 · Invitique · Experience Now"

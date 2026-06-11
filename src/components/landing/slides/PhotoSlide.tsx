@@ -22,7 +22,7 @@ export function PhotoSlide({ active }: PhotoSlideProps) {
   return (
     <div className="w-screen h-screen bg-cream flex flex-col overflow-hidden select-none">
       {/* Top bar */}
-      <div className="flex items-center justify-between px-8 pt-6 pb-4 border-b border-deep/8 shrink-0">
+      <div className="flex items-center justify-between px-8 pt-14 pb-4 border-b border-deep/8 shrink-0">
         <div className="overflow-hidden">
           <motion.div
             variants={maskReveal(0)}

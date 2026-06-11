@@ -20,7 +20,7 @@ export function CoverSlide({ active }: CoverSlideProps) {
   return (
     <div className="w-screen h-screen bg-cream flex flex-col overflow-hidden select-none">
       {/* Top strip */}
-      <div className="flex items-center justify-between px-8 pt-6 pb-0 shrink-0">
+      <div className="flex items-center justify-between px-8 pt-14 pb-0 shrink-0">
         <span className="font-display italic text-deep/40 text-sm tracking-wide">Issue 01</span>
         <span className="text-[11px] tracking-[0.3em] uppercase text-deep/35 font-sans">Wedding Gallery</span>
         <span className="font-sans text-deep/40 text-sm">2026</span>

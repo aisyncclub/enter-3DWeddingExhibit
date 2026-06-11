@@ -44,7 +44,7 @@ export function ThemesSlide({ active }: ThemesSlideProps) {
   return (
     <div className="w-screen h-screen bg-cream flex flex-col overflow-hidden select-none">
       {/* Top label */}
-      <div className="flex items-end justify-between px-8 pt-8 pb-5 border-b border-deep/8 shrink-0">
+      <div className="flex items-end justify-between px-8 pt-14 pb-5 border-b border-deep/8 shrink-0">
         <div>
           <p className="font-sans text-[11px] tracking-[0.3em] uppercase text-caramel mb-1">Theme Collection</p>
           <h2 className="font-display text-3xl font-black text-deep">Three Worlds</h2>
