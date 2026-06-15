@@ -10,7 +10,7 @@ export function FooterSection() {
         </div>
 
         <div className="flex items-center gap-1.5 text-white/25 text-sm">
-          Made with <Heart size={13} className="text-blush" fill="currentColor" /> for couples everywhere
+          Made with <Heart size={13} className="text-dusty-rose" fill="currentColor" /> for couples everywhere
         </div>
 
         <p className="text-white/20 text-xs">© 2026 Invitique. All rights reserved.</p>

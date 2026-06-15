@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Box, Palette, Sparkles, Share2, Upload, Smartphone } from 'lucide-react';
+import { Box, Images, Palette, Share2, Upload, Smartphone } from 'lucide-react';
 
 const FEATURES = [
   {
@@ -13,15 +13,15 @@ const FEATURES = [
     icon: <Palette size={28} />,
     title: '3가지 테마',
     desc: '채플의 따뜻함, 정원의 싱그러움, 밤하늘의 로맨틱함. 커플 분위기에 맞게.',
-    color: 'hsl(var(--blush))',
-    bg: 'hsl(var(--blush) / 0.08)',
+    color: 'hsl(var(--dusty-rose))',
+    bg: 'hsl(var(--dusty-rose) / 0.08)',
   },
   {
-    icon: <Sparkles size={28} />,
-    title: '파티클 효과',
-    desc: '꽃잎이 흩날리고 별이 반짝이는 환경. 갤러리에 생동감을 더하는 앰비언스.',
-    color: 'hsl(140 40% 50%)',
-    bg: 'hsl(140 40% 50% / 0.08)',
+    icon: <Images size={28} />,
+    title: '사진 큐레이션',
+    desc: '대표 컷, 포트레이트, 디테일 컷을 전시 흐름에 맞게 정돈.',
+    color: 'hsl(165 26% 48%)',
+    bg: 'hsl(165 26% 48% / 0.08)',
   },
   {
     icon: <Upload size={28} />,
@@ -41,8 +41,8 @@ const FEATURES = [
     icon: <Share2 size={28} />,
     title: '링크 공유',
     desc: '링크 하나로 PC·모바일 어디서나 전달. 누구나 바로 체험 가능.',
-    color: 'hsl(var(--blush))',
-    bg: 'hsl(var(--blush) / 0.08)',
+    color: 'hsl(var(--dusty-rose))',
+    bg: 'hsl(var(--dusty-rose) / 0.08)',
   },
 ];
 
@@ -71,11 +71,11 @@ export function FeaturesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08 }}
-              className="rounded-2xl p-6 border border-white/6 hover:border-white/12 transition-all group"
+              className="rounded-lg p-6 border border-white/8 hover:border-white/18 transition-all group"
               style={{ background: 'hsl(var(--deep-mid))' }}
             >
               <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-transform group-hover:scale-110"
+                className="w-12 h-12 rounded-md flex items-center justify-center mb-4 transition-transform group-hover:scale-105"
                 style={{ color: f.color, background: f.bg }}
               >
                 {f.icon}

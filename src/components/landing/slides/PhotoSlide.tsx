@@ -1,14 +1,14 @@
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRightGlyph as ArrowRight } from '@/components/icons/EditorialIcons';
 import { MarqueeText } from '../MarqueeText';
 
 interface PhotoSlideProps { active: boolean; }
 
 const FEATURES = [
-  { label: 'AI 커버 추천', desc: '분위기에 맞는 대표 사진 자동 선별' },
-  { label: '스토리 구성', desc: '4챕터 연애 이야기 자동 생성' },
-  { label: '갤러리 정리', desc: '분위기별 사진 그룹 자동 배열' },
+  { label: '커버 큐레이션', desc: '첫 화면에 어울리는 대표 사진을 정돈된 비율로 배치' },
+  { label: '스토리 챕터', desc: '두 사람의 여정을 네 개의 장면으로 자연스럽게 구성' },
+  { label: '갤러리 편집', desc: '포트레이트, 디테일, 이브닝 컷을 균형 있게 배열' },
 ];
 
 export function PhotoSlide({ active }: PhotoSlideProps) {
@@ -25,10 +25,10 @@ export function PhotoSlide({ active }: PhotoSlideProps) {
   return (
     <div className="w-screen h-screen bg-cream flex flex-col overflow-hidden select-none">
       {/* Top bar */}
-      <div className="flex items-center justify-between px-8 pt-14 pb-4 border-b border-deep/8 shrink-0">
+      <div className="flex items-center justify-between px-5 md:px-8 pt-20 md:pt-24 pb-4 border-b border-deep/8 shrink-0">
         <div className="overflow-hidden">
           <motion.p variants={maskReveal(0)} initial="hidden" animate={active ? 'visible' : 'hidden'}
-            className="font-sans text-[11px] tracking-[0.3em] uppercase text-caramel"
+            className="font-sans text-xs tracking-[0.28em] uppercase text-caramel"
           >Live Preview</motion.p>
         </div>
         <div className="overflow-hidden">
@@ -38,16 +38,16 @@ export function PhotoSlide({ active }: PhotoSlideProps) {
         </div>
         <div className="overflow-hidden">
           <motion.p variants={maskReveal(0.14)} initial="hidden" animate={active ? 'visible' : 'hidden'}
-            className="font-sans text-xs text-deep/35"
+            className="font-sans text-sm text-deep/42"
           >실제 샘플 미리보기</motion.p>
         </div>
       </div>
 
       {/* Body */}
-      <div className="flex flex-1 min-h-0 overflow-hidden">
+      <div className="flex flex-col md:flex-row flex-1 min-h-0 overflow-hidden">
         {/* Left: copy */}
-        <div className="w-[42%] shrink-0 flex flex-col justify-center px-10 border-r border-deep/8 gap-7">
-          <div>
+        <div className="w-full md:w-[42%] shrink-0 flex flex-col justify-center px-7 md:px-10 py-5 md:py-0 border-b md:border-b-0 md:border-r border-deep/8 gap-5 md:gap-7">
+          <div className="hidden md:block">
             <div className="overflow-hidden mb-3">
               <motion.p variants={maskReveal(0.2)} initial="hidden" animate={active ? 'visible' : 'hidden'}
                 className="font-display italic text-caramel text-5xl font-bold leading-none"
@@ -60,15 +60,17 @@ export function PhotoSlide({ active }: PhotoSlideProps) {
             </div>
           </div>
 
-          <div className="space-y-4">
+          <div className="glass-panel-quiet grid grid-cols-1 sm:grid-cols-3 md:block md:space-y-0 gap-0">
             {FEATURES.map((f, i) => (
               <motion.div key={f.label} variants={fadeIn(0.35 + i * 0.1)} initial="hidden" animate={active ? 'visible' : 'hidden'}
-                className="flex items-start gap-3"
+                className={`flex items-start gap-3 px-4 py-4 ${i > 0 ? 'border-t sm:border-t-0 sm:border-l md:border-l-0 md:border-t border-deep/8' : ''}`}
               >
-                <Sparkles size={11} className="mt-0.5 shrink-0 text-caramel" />
+                <span className="mt-0.5 shrink-0 font-display text-lg leading-none text-caramel/75">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
                 <div>
-                  <p className="font-sans text-[11px] font-semibold text-deep/80 mb-0.5">{f.label}</p>
-                  <p className="font-sans text-[10px] text-deep/40 leading-relaxed">{f.desc}</p>
+                  <p className="font-sans text-xs tracking-[0.04em] md:tracking-[0.12em] uppercase font-semibold text-deep/80 mb-1">{f.label}</p>
+                  <p className="font-sans text-sm text-deep/52 leading-relaxed">{f.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -76,7 +78,7 @@ export function PhotoSlide({ active }: PhotoSlideProps) {
 
           <motion.button variants={fadeIn(0.6)} initial="hidden" animate={active ? 'visible' : 'hidden'}
             onClick={() => navigate('/demo')}
-            className="flex items-center gap-2 font-sans text-xs text-caramel border border-caramel/30 px-4 py-2.5 w-fit hover:bg-caramel/8 transition-colors"
+            className="hidden md:flex items-center gap-2 font-sans text-xs text-caramel border border-caramel/30 px-4 py-2.5 w-fit hover:bg-caramel/8 transition-colors"
           >
             전체 청첩장 보기
             <ArrowRight size={11} />
@@ -96,8 +98,8 @@ export function PhotoSlide({ active }: PhotoSlideProps) {
             <div
               className="relative overflow-hidden bg-deep/5"
               style={{
-                width: 264,
-                height: 526,
+                width: 'min(264px, 68vw)',
+                height: 'min(526px, 50vh)',
                 borderRadius: '2.4rem',
                 border: '8px solid rgba(43,29,21,0.10)',
                 boxShadow: 'inset 0 0 0 1px rgba(43,29,21,0.07)',
@@ -140,7 +142,7 @@ export function PhotoSlide({ active }: PhotoSlideProps) {
       {/* Marquee bottom */}
       <MarqueeText
         text="지훈 & 서연 · 2026.10.24 · 라움 채플홀 · Wedding Invitation · Scroll to Experience"
-        className="text-[11px] tracking-[0.15em] uppercase text-deep/18 font-sans border-t border-deep/8 py-2"
+        className="hidden md:block text-[11px] tracking-[0.15em] uppercase text-deep/18 font-sans border-t border-deep/8 py-2"
         speed="slow"
       />
     </div>

@@ -16,9 +16,9 @@ export function ConceptSlide({ active }: ConceptSlideProps) {
   });
 
   return (
-    <div className="w-screen h-screen bg-cream flex overflow-hidden select-none">
+    <div className="w-screen h-screen bg-cream flex flex-col md:flex-row overflow-hidden select-none">
       {/* Left: Vertical label */}
-      <div className="w-12 shrink-0 flex items-center justify-center border-r border-deep/8">
+      <div className="hidden md:flex w-12 shrink-0 items-center justify-center border-r border-deep/8">
         <span
           className="font-sans text-[10px] tracking-[0.4em] uppercase text-deep/30 whitespace-nowrap"
           style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
@@ -28,7 +28,7 @@ export function ConceptSlide({ active }: ConceptSlideProps) {
       </div>
 
       {/* Center: Headline */}
-      <div className="flex-1 flex flex-col justify-center px-12 md:px-16 border-r border-deep/8">
+      <div className="flex-1 flex flex-col justify-center px-7 md:px-16 pt-20 md:pt-0 pb-8 md:pb-0 md:border-r border-deep/8">
         <p className="font-sans text-[11px] tracking-[0.3em] uppercase text-caramel mb-8">The Concept</p>
 
         {['Beyond the', 'Card'].map((line, i) => (
@@ -38,7 +38,7 @@ export function ConceptSlide({ active }: ConceptSlideProps) {
               variants={maskReveal}
               initial="hidden"
               animate={active ? 'visible' : 'hidden'}
-              className={`font-display font-black text-[clamp(2.8rem,6.5vw,5.5rem)] leading-[0.95] text-deep ${i === 1 ? 'italic text-caramel' : ''}`}
+              className={`font-display font-black text-[clamp(2.7rem,14vw,5.5rem)] md:text-[clamp(2.8rem,6.5vw,5.5rem)] leading-[0.95] text-deep ${i === 1 ? 'italic text-caramel' : ''}`}
             >
               {line}
             </motion.h2>
@@ -67,15 +67,15 @@ export function ConceptSlide({ active }: ConceptSlideProps) {
           animate={active ? 'visible' : 'hidden'}
           className="mt-10"
         >
-          <div className="flex items-center gap-6">
+          <div className="grid grid-cols-3 gap-4 md:flex md:items-center md:gap-6">
             {[
               { num: '3', label: '가지 템플릿' },
               { num: '5', label: '분 제작' },
               { num: '1', label: '개 링크' },
             ].map((s) => (
-              <div key={s.label} className="border-t border-deep/15 pt-4 pr-6">
+              <div key={s.label} className="border-t border-deep/15 pt-4 md:pr-6">
                 <div className="font-display text-3xl font-black text-deep">{s.num}</div>
-                <div className="font-sans text-[11px] tracking-[0.15em] uppercase text-deep/40 mt-1">{s.label}</div>
+                <div className="font-sans text-[11px] tracking-[0.08em] md:tracking-[0.15em] uppercase text-deep/40 mt-1">{s.label}</div>
               </div>
             ))}
           </div>
@@ -83,7 +83,7 @@ export function ConceptSlide({ active }: ConceptSlideProps) {
       </div>
 
       {/* Right: Two photos */}
-      <div className="w-[38%] shrink-0 flex flex-col gap-0">
+      <div className="hidden md:flex w-[38%] shrink-0 flex-col gap-0">
         <motion.div
           variants={imgReveal(0.2)}
           initial="hidden"

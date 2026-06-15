@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Check, Sparkles } from 'lucide-react';
+import { Check } from 'lucide-react';
 
 const PLANS = [
   {
@@ -7,7 +7,7 @@ const PLANS = [
     price: '₩0',
     period: '영구 무료',
     desc: '3D 갤러리 데모를 미리 체험',
-    features: ['3D 갤러리 체험', '3가지 테마', '사진 4장', '파티클 효과', '—'],
+    features: ['3D 갤러리 체험', '3가지 테마', '사진 4장', '사진 큐레이션', '—'],
     cta: '지금 체험',
     ctaLink: '/demo',
     highlight: false,
@@ -17,7 +17,7 @@ const PLANS = [
     price: '₩29,000',
     period: '청첩장 1건',
     desc: '커플 청첩장 완성 + 링크 공유',
-    features: ['3D 갤러리 청첩장', '3가지 테마', '사진 8장', '파티클 효과', '링크 공유 90일'],
+    features: ['3D 갤러리 청첩장', '3가지 테마', '사진 8장', '사진 큐레이션', '링크 공유 90일'],
     cta: '주문하기',
     ctaLink: '/demo',
     highlight: true,
@@ -59,7 +59,7 @@ export function PricingSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className={`relative rounded-3xl p-7 flex flex-col ${
+              className={`relative rounded-lg p-7 flex flex-col ${
                 plan.highlight
                   ? 'border-2 border-gold/60 shadow-gold'
                   : 'border border-white/8'
@@ -67,8 +67,8 @@ export function PricingSection() {
               style={{ background: plan.highlight ? 'hsl(var(--deep))' : 'hsl(var(--deep) / 0.6)' }}
             >
               {plan.highlight && (
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 flex items-center gap-1.5 bg-gold text-deep text-xs font-bold px-3 py-1 rounded-full">
-                  <Sparkles size={11} /> 인기
+                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gold text-deep text-xs font-bold px-3 py-1 rounded-md">
+                  추천
                 </div>
               )}
 
@@ -92,7 +92,7 @@ export function PricingSection() {
 
               <a
                 href={plan.ctaLink}
-                className={`w-full py-3 rounded-xl font-semibold text-sm text-center transition-all ${
+                className={`w-full py-3 rounded-md font-semibold text-sm text-center transition-all ${
                   plan.highlight
                     ? 'bg-gold text-deep hover:shadow-gold hover:scale-[1.02]'
                     : 'border border-white/15 text-white/70 hover:bg-white/6'
