@@ -8,22 +8,22 @@ export const routers = [
   {
     path: "/",
     name: "home",
-    element: <Index />,
+    element: <LandingV2 />,
   },
   {
     path: "/demo",
     name: "demo",
-    element: <DemoPage />,
-  },
-  {
-    path: "/v2",
-    name: "landing-v2",
-    element: <LandingV2 />,
-  },
-  {
-    path: "/demo-v2",
-    name: "demo-v2",
     element: <DemoV2 />,
+  },
+  {
+    path: "/v1",
+    name: "landing-v1",
+    element: <Index />,
+  },
+  {
+    path: "/demo-v1",
+    name: "demo-v1",
+    element: <DemoPage />,
   },
   /* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */
   {
@@ -32,6 +32,15 @@ export const routers = [
     element: <NotFound />,
   },
 ];
+
+declare global {
+  interface Window {
+    __routers__: typeof routers;
+  }
+}
+
+window.__routers__ = routers;
+
 
 declare global {
   interface Window {

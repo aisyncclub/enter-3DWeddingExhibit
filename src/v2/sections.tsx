@@ -121,9 +121,9 @@ export function Pricing() {
               <p className="text-sm mt-1" style={{ color: '#E0EBF0' }}>1회 제작</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 mt-auto">
-              <Button variant="primary" onClick={() => navigate('/demo-v2')}
+              <Button variant="primary" onClick={() => navigate('/demo')}
                 className="!bg-white !text-[#051A24]">상담 시작</Button>
-              <Button variant="secondary" onClick={() => navigate('/demo-v2')}
+              <Button variant="secondary" onClick={() => navigate('/demo')}
                 className="!bg-transparent !text-[#F6FCFF] !shadow-none border border-white/20">제작 과정</Button>
             </div>
           </div>
@@ -141,7 +141,7 @@ export function Pricing() {
               <p className="text-sm mt-1" style={{ color: '#273C46' }}>Self-serve</p>
             </div>
             <div className="mt-auto">
-              <Button variant="tertiary" onClick={() => navigate('/demo-v2')}>바로 만들기</Button>
+              <Button variant="tertiary" onClick={() => navigate('/demo')}>바로 만들기</Button>
             </div>
           </div>
         </Reveal>
@@ -315,7 +315,7 @@ export function Partner() {
             Begin your story
           </h2>
           <div className="pointer-events-auto inline-block">
-            <Button variant="primary" onClick={() => navigate('/demo-v2')} className="!py-2 !pl-2 !pr-6"
+            <Button variant="primary" onClick={() => navigate('/demo')} className="!py-2 !pl-2 !pr-6"
               leading={<img src={PHOTOS[0]} alt="" crossOrigin="anonymous" className="w-10 h-10 rounded-full object-cover" />}>
               청첩장 만들기 시작
             </Button>
@@ -336,7 +336,7 @@ export function Footer() {
     <>
       <footer className="max-w-[1200px] mx-auto px-6 py-12">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-10">
-          <Button variant="primary" onClick={() => navigate('/demo-v2')}>청첩장 만들기</Button>
+          <Button variant="primary" onClick={() => navigate('/demo')}>청첩장 만들기</Button>
           <div className="flex items-start gap-6">
             <ArrowUpRight className="w-6 h-6 mt-1 shrink-0" style={{ color: '#051A24' }} />
             <div className="flex gap-14" style={{ color: '#051A24' }}>
@@ -372,8 +372,8 @@ export function BottomNav() {
     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
       <div className="flex items-center gap-3 bg-white rounded-full pl-6 pr-2 py-2"
         style={{ boxShadow: `${SHADOW_SECONDARY}, ${SHADOW_PRIMARY}` }}>
-        <button onClick={() => navigate('/v2')} className="v2-serif text-2xl font-semibold leading-none" style={{ color: '#051A24' }}>I</button>
-        <Button variant="primary" onClick={() => navigate('/demo-v2')} className="!px-5 !py-2">청첩장 만들기</Button>
+        <button onClick={() => navigate('/')} className="v2-serif text-2xl font-semibold leading-none" style={{ color: '#051A24' }}>I</button>
+        <Button variant="primary" onClick={() => navigate('/demo')} className="!px-5 !py-2">청첩장 만들기</Button>
       </div>
     </div>
   );
