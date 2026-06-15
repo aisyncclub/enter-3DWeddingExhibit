@@ -1,0 +1,102 @@
+/* ============================================================
+   Invitique v2 — Viktor-Oddy-inspired editorial landing
+   Self-contained: fonts, marquee, fade-in-up. Scoped under .v2-root
+   so it never touches the existing landing / demo styles.
+   ============================================================ */
+
+/* Fonts loaded from reliable CDNs so the page renders identically for the
+   brand reviewer. The original spec's PP Neue Montreal (Webflow CDN, 403s on
+   hotlink) and PP Mondwest (commercial, local file) are unavailable here, so
+   we substitute robust equivalents that keep the same editorial feel:
+   Pretendard (clean grotesque, full Korean) for body, Fraunces (characterful
+   high-contrast serif) for the display accents. Drop a real
+   PPMondwest-Regular.woff2 into /public and add an @font-face to override. */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&display=swap');
+
+.v2-root {
+  font-family: 'Pretendard Variable', 'Pretendard',
+    -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-weight: 400;
+  background: #fff;
+  color: #051a24;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.01em;
+}
+
+/* Serif accent — real Mondwest if installed, Fraunces otherwise. */
+.v2-serif {
+  font-family: 'PP Mondwest', 'Fraunces', 'Cormorant Garamond', Georgia, serif;
+  font-optical-sizing: auto;
+}
+
+.v2-mono {
+  font-family: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, Consolas, monospace;
+}
+
+/* ── Marquee ───────────────────────────────────────────── */
+.animate-marquee {
+  animation: v2-marquee 32s linear infinite;
+}
+@keyframes v2-marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@media (max-width: 768px) {
+  .animate-marquee { animation-duration: 14s; }
+}
+
+/* ── Fade-in-up (scroll reveal) ────────────────────────── */
+.animate-fade-in-up {
+  animation: v2-fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+@keyframes v2-fadeInUp {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Mouse-trail thumbnails (Partner section) */
+.v2-trail {
+  animation: v2-trail-out 1000ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform, opacity;
+}
+@keyframes v2-trail-out {
+  0% { opacity: 0.95; }
+  100% { opacity: 0; transform: scale(0.6); }
+}
+
+/* ── Falling petals (invitation backdrop) ──────────────── */
+.v2-petals {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.v2-petal-fall {
+  position: absolute;
+  top: -14vh;
+  will-change: transform;
+  animation: v2-petal-fall linear infinite;
+}
+.v2-petal-sway {
+  display: block;
+  will-change: transform;
+  animation: v2-petal-sway ease-in-out infinite alternate;
+}
+@keyframes v2-petal-fall {
+  from { transform: translateY(-14vh); }
+  to { transform: translateY(114vh); }
+}
+@keyframes v2-petal-sway {
+  from { transform: translateX(-15px) rotate(-15deg); }
+  to { transform: translateX(16px) rotate(22deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee { animation: none; }
+  .animate-fade-in-up { animation: none; opacity: 1; }
+  .v2-petals { display: none; }
+}

@@ -2,10 +2,22 @@ import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ArrowLeft, Calendar, MapPin, Clock, Share2, Copy, Check,
-  ChevronDown, ChevronRight, Heart, Sparkles, Navigation,
-  CreditCard, MessageCircle, Users, Phone,
-} from 'lucide-react';
+  ArrowLeftGlyph as ArrowLeft,
+  CalendarGlyph as Calendar,
+  PinGlyph as MapPin,
+  ClockGlyph as Clock,
+  ShareGlyph as Share2,
+  CopyGlyph as Copy,
+  CheckGlyph as Check,
+  ChevronDownGlyph as ChevronDown,
+  ChevronRightGlyph as ChevronRight,
+  CompassGlyph as Navigation,
+  EnvelopeGlyph as CreditCard,
+  PenGlyph as MessageCircle,
+  PersonGlyph as Users,
+  PhoneGlyph as Phone,
+  BloomGlyph,
+} from '@/components/icons/EditorialIcons';
 import { FilmGrain } from '@/components/landing/FilmGrain';
 
 // ── Types & Templates ──────────────────────────────────────────────────────
@@ -106,11 +118,11 @@ const STORY_CHAPTERS = [
 ];
 
 const GALLERY_GROUPS = [
-  { label: 'AI 추천 대표 커버', tag: 'Cover Pick', photos: [PHOTOS[0]], layout: 'full-tall' },
-  { label: '커플 포트레이트', tag: 'Couple Portrait', photos: [PHOTOS[1], PHOTOS[5]], layout: 'two-equal' },
-  { label: '디테일 컷', tag: 'Detail Cuts', photos: [PHOTOS[2], PHOTOS[6]], layout: 'asymmetric' },
-  { label: '패밀리 무드', tag: 'Family Mood', photos: [PHOTOS[3]], layout: 'full-short' },
-  { label: '이브닝 씬', tag: 'Evening Scene', photos: [PHOTOS[4], PHOTOS[7]], layout: 'two-equal' },
+  { label: '대표 커버', tag: 'Cover', photos: [PHOTOS[0]], layout: 'full-tall' },
+  { label: '커플 포트레이트', tag: 'Portrait', photos: [PHOTOS[1], PHOTOS[5]], layout: 'two-equal' },
+  { label: '디테일 컷', tag: 'Details', photos: [PHOTOS[2], PHOTOS[6]], layout: 'asymmetric' },
+  { label: '패밀리 무드', tag: 'Family', photos: [PHOTOS[3]], layout: 'full-short' },
+  { label: '이브닝 씬', tag: 'Evening', photos: [PHOTOS[4], PHOTOS[7]], layout: 'two-equal' },
 ];
 
 interface GuestMsg { name: string; msg: string; date: string; }
@@ -135,13 +147,12 @@ const scaleIn = (delay = 0) => ({
   transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1], delay },
 });
 
-function AIBadge({ label, t }: { label: string; t: Tpl }) {
+function EditorialLabel({ label, t }: { label: string; t: Tpl }) {
   return (
     <span
-      className="inline-flex items-center gap-1 px-2 py-0.5 text-[9px] tracking-widest uppercase font-sans border"
-      style={{ borderColor: t.border, color: t.accent, backgroundColor: t.accentMuted }}
+      className="inline-flex items-center px-2.5 py-1 text-[10px] tracking-[0.18em] uppercase font-sans border backdrop-blur-sm"
+      style={{ borderColor: t.divider, color: t.accent, backgroundColor: t.bg }}
     >
-      <Sparkles size={7} />
       {label}
     </span>
   );
@@ -149,10 +160,12 @@ function AIBadge({ label, t }: { label: string; t: Tpl }) {
 
 function Divider({ t }: { t: Tpl }) {
   return (
-    <div className="flex items-center justify-center gap-3 my-12">
-      <div className="h-px w-14" style={{ backgroundColor: t.divider }} />
-      <Heart size={9} fill="currentColor" style={{ color: t.accent }} />
-      <div className="h-px w-14" style={{ backgroundColor: t.divider }} />
+    <div className="flex items-center justify-center gap-3.5 my-12">
+      <span className="h-1 w-1 rotate-45" style={{ backgroundColor: t.divider }} />
+      <div className="h-px w-12" style={{ background: `linear-gradient(to right, transparent, ${t.divider})` }} />
+      <BloomGlyph size={16} strokeWidth={1} style={{ color: t.accent }} />
+      <div className="h-px w-12" style={{ background: `linear-gradient(to left, transparent, ${t.divider})` }} />
+      <span className="h-1 w-1 rotate-45" style={{ backgroundColor: t.divider }} />
     </div>
   );
 }
@@ -160,7 +173,7 @@ function Divider({ t }: { t: Tpl }) {
 function SectionLabel({ en, kr, t }: { en: string; kr: string; t: Tpl }) {
   return (
     <div className="text-center mb-8">
-      <p className="font-sans text-[10px] tracking-[0.4em] uppercase mb-1.5" style={{ color: t.accent }}>{en}</p>
+      <p className="font-sans text-[11px] tracking-[0.32em] uppercase mb-1.5" style={{ color: t.accent }}>{en}</p>
       <h2 className="font-sans font-bold text-xl" style={{ color: t.text, fontFamily: t.headingFamily, fontWeight: 600, fontSize: '1.5rem' }}>{kr}</h2>
     </div>
   );
@@ -171,8 +184,10 @@ export default function DemoPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const init = (searchParams.get('template') as TemplateKey) || 'lumiere';
+  const themeAlias = searchParams.get('theme');
+  const normalizedInit = themeAlias === 'chapel' ? 'lumiere' : themeAlias === 'garden' ? 'blanc' : themeAlias === 'night' ? 'nuit' : init;
   const [template, setTemplate] = useState<TemplateKey>(
-    Object.keys(TEMPLATES).includes(init) ? init : 'lumiere',
+    Object.keys(TEMPLATES).includes(normalizedInit) ? normalizedInit as TemplateKey : 'lumiere',
   );
   // RSVP state
   const [attending, setAttending] = useState<'yes' | 'no' | null>(null);
@@ -225,12 +240,12 @@ export default function DemoPage() {
           >
             <button onClick={() => navigate('/')} className="flex items-center gap-1.5 transition-opacity hover:opacity-60">
               <ArrowLeft size={15} style={{ color: t.muted }} />
-              <span className="font-sans text-[10px] tracking-[0.15em] uppercase" style={{ color: t.muted }}>소개</span>
+              <span className="font-sans text-xs tracking-[0.12em] uppercase" style={{ color: t.muted }}>소개</span>
             </button>
             <span className="text-sm" style={{ color: t.muted, fontFamily: t.headingFamily, fontStyle: 'italic' }}>Invitique</span>
             <button onClick={() => copy(window.location.href, 'nav-share')} className="flex items-center gap-1.5 hover:opacity-60 transition-opacity">
               {copied === 'nav-share' ? <Check size={14} style={{ color: t.accent }} /> : <Share2 size={14} style={{ color: t.muted }} />}
-              <span className="font-sans text-[10px] tracking-[0.15em] uppercase" style={{ color: t.muted }}>공유</span>
+              <span className="font-sans text-xs tracking-[0.12em] uppercase" style={{ color: t.muted }}>공유</span>
             </button>
           </nav>
 
@@ -270,9 +285,9 @@ export default function DemoPage() {
                   className="relative z-10 text-center px-6 w-full"
                 >
                   <div className="flex items-center justify-center gap-3 mb-5">
-                    <div className="h-px w-12" style={{ backgroundColor: 'rgba(255,255,255,0.45)' }} />
-                    <Heart size={9} fill="rgba(255,255,255,0.75)" color="transparent" />
-                    <div className="h-px w-12" style={{ backgroundColor: 'rgba(255,255,255,0.45)' }} />
+                    <div className="h-px w-12" style={{ background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.5))' }} />
+                    <BloomGlyph size={14} strokeWidth={1} style={{ color: 'rgba(255,255,255,0.82)' }} />
+                    <div className="h-px w-12" style={{ background: 'linear-gradient(to left, transparent, rgba(255,255,255,0.5))' }} />
                   </div>
                   <p className="font-sans text-[10px] tracking-[0.55em] uppercase mb-4" style={{ color: 'rgba(255,255,255,0.7)' }}>
                     Wedding Invitation
@@ -306,8 +321,8 @@ export default function DemoPage() {
               {/* ══ 2. INTRO LETTER ══════════════════════════════════════ */}
               <section className="px-8 pt-14 pb-2" style={{ backgroundColor: t.bg }}>
                 <motion.div {...fadeUp(0)} className="text-center mb-8 flex flex-col items-center gap-2">
-                  <p className="font-sans text-[10px] tracking-[0.4em] uppercase" style={{ color: t.accent }}>박지훈 · 이서연</p>
-                  <AIBadge label="AI 인사말 생성" t={t} />
+                  <p className="font-sans text-[11px] tracking-[0.32em] uppercase" style={{ color: t.accent }}>박지훈 · 이서연</p>
+                  <EditorialLabel label="custom note" t={t} />
                 </motion.div>
                 <div className="text-center space-y-0.5 max-w-xs mx-auto">
                   {INTRO_LINES.map((line, i) =>
@@ -327,7 +342,7 @@ export default function DemoPage() {
               {/* ══ 3. OUR STORY ══════════════════════════════════════════ */}
               <section className="pb-4" style={{ backgroundColor: t.bg }}>
                 <motion.div {...fadeUp(0)} className="text-center mb-10 px-8">
-                  <p className="font-sans text-[10px] tracking-[0.4em] uppercase mb-2" style={{ color: t.accent }}>Our Story</p>
+                  <p className="font-sans text-[11px] tracking-[0.32em] uppercase mb-2" style={{ color: t.accent }}>Our Story</p>
                   <h2 style={{ fontFamily: t.headingFamily, fontWeight: 400, fontSize: '1.75rem', color: t.text }}>두 사람의 이야기</h2>
                 </motion.div>
 
@@ -404,19 +419,24 @@ export default function DemoPage() {
               {/* ══ 5. GALLERY ═══════════════════════════════════════════ */}
               <section className="pb-4" style={{ backgroundColor: t.bg }}>
                 <motion.div {...fadeUp(0)} className="text-center mb-6 px-8">
-                  <p className="font-sans text-[10px] tracking-[0.4em] uppercase mb-2" style={{ color: t.accent }}>Gallery</p>
-                  <div className="flex items-center justify-center gap-2">
+                  <p className="font-sans text-[11px] tracking-[0.32em] uppercase mb-2" style={{ color: t.accent }}>Gallery</p>
+                  <div className="flex flex-col items-center justify-center gap-2">
                     <h2 style={{ fontFamily: t.headingFamily, fontWeight: 400, fontSize: '1.75rem', color: t.text }}>우리의 이야기</h2>
-                    <AIBadge label="분위기별 자동 정리" t={t} />
+                    <EditorialLabel label="curated moments" t={t} />
                   </div>
                 </motion.div>
 
-                {GALLERY_GROUPS.map((grp) => (
+                {GALLERY_GROUPS.map((grp, i) => (
                   <div key={grp.tag} className="mb-1">
                     {/* Group label */}
-                    <div className="flex items-center gap-2 px-4 py-2" style={{ backgroundColor: t.surface }}>
-                      <span className="font-sans text-[9px] tracking-[0.3em] uppercase" style={{ color: t.accent }}>{grp.tag}</span>
-                      <AIBadge label={grp.label} t={t} />
+                    <div className="mx-3 my-1 flex items-center justify-between px-5 py-4 border backdrop-blur-md" style={{ backgroundColor: t.bg + 'B8', borderColor: t.border, boxShadow: '0 16px 36px rgba(0,0,0,0.06)' }}>
+                      <div>
+                        <span className="font-sans text-[11px] tracking-[0.22em] uppercase block mb-1" style={{ color: t.subtle }}>
+                          {String(i + 1).padStart(2, '0')} / {grp.tag}
+                        </span>
+                        <span className="font-sans text-sm tracking-[0.12em] uppercase" style={{ color: t.accent }}>{grp.label}</span>
+                      </div>
+                      <div className="h-px w-14" style={{ backgroundColor: t.divider }} />
                     </div>
                     {/* Photos */}
                     {grp.layout === 'full-tall' && (
@@ -748,7 +768,6 @@ export default function DemoPage() {
                   >
                     <span className="text-base leading-none">💬</span>
                     카카오톡으로 공유하기
-                    <AIBadge label="카톡 문구 최적화" t={{ ...t, bg: 'transparent', accentMuted: 'rgba(0,0,0,0.08)' }} />
                   </button>
                   <button onClick={() => copy(window.location.href, 'share-link')}
                     className="w-full py-4 flex items-center justify-center gap-2 font-sans text-sm border transition-opacity hover:opacity-70"

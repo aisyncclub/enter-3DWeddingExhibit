@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const HERO_IMAGES = [
@@ -23,9 +23,6 @@ export function HeroSection() {
         }}
       />
 
-      {/* Subtle gold glow — left side only */}
-      <div className="absolute top-1/2 -left-32 w-80 h-80 rounded-full opacity-[0.06] blur-3xl pointer-events-none" style={{ background: 'hsl(var(--gold))' }} />
-
       <div className="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center py-16">
         {/* Left: Text content */}
         <div>
@@ -33,9 +30,8 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="flex items-center gap-2 border border-gold/30 rounded-full px-4 py-1.5 mb-8 text-gold text-sm font-medium w-fit"
+            className="flex items-center gap-2 border border-gold/30 rounded-md px-4 py-1.5 mb-8 text-gold text-sm font-medium w-fit"
           >
-            <Sparkles size={14} />
             3D 웨딩 갤러리 청첩장
           </motion.div>
 
@@ -71,14 +67,14 @@ export function HeroSection() {
           >
             <button
               onClick={() => navigate('/demo')}
-              className="flex items-center justify-center gap-2 bg-gold text-deep font-semibold px-7 py-3.5 rounded-full shadow-gold hover:shadow-float transition-all hover:scale-[1.03] active:scale-100"
+              className="flex items-center justify-center gap-2 bg-gold text-deep font-semibold px-7 py-3.5 rounded-md shadow-gold hover:shadow-float transition-all hover:scale-[1.02] active:scale-100"
             >
               데모 체험하기
               <ArrowRight size={16} />
             </button>
             <button
               onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
-              className="flex items-center justify-center gap-2 border border-white/15 text-white/70 font-medium px-7 py-3.5 rounded-full hover:bg-white/5 transition-all"
+              className="flex items-center justify-center gap-2 border border-white/15 text-white/70 font-medium px-7 py-3.5 rounded-md hover:bg-white/5 transition-all"
             >
               기능 살펴보기
             </button>
@@ -117,7 +113,7 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 + i * 0.1 }}
-              className={`relative overflow-hidden rounded-2xl ${i === 0 ? 'row-span-2' : ''}`}
+              className={`relative overflow-hidden rounded-lg ${i === 0 ? 'row-span-2' : ''}`}
               style={{ aspectRatio: i === 0 ? '3/4' : '1/1' }}
             >
               <img
@@ -127,7 +123,7 @@ export function HeroSection() {
                 className="w-full h-full object-cover"
               />
               {/* Gold frame highlight */}
-              <div className="absolute inset-0 rounded-2xl ring-1 ring-gold/20" />
+              <div className="absolute inset-0 rounded-lg ring-1 ring-gold/20" />
             </motion.div>
           ))}
         </motion.div>

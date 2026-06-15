@@ -14,7 +14,7 @@ const STEPS = [
     icon: <Sliders size={24} />,
     title: '테마 & 정보 설정',
     desc: '채플·정원·밤하늘 중 테마를 선택하고, 이름·날짜·장소를 입력하세요.',
-    color: 'hsl(var(--blush))',
+    color: 'hsl(var(--dusty-rose))',
   },
   {
     num: '03',
@@ -54,12 +54,12 @@ export function HowItWorksSection() {
                 className="flex flex-col items-center text-center"
               >
                 <div
-                  className="relative w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg"
+                  className="relative w-16 h-16 rounded-lg flex items-center justify-center mb-6 shadow-lg"
                   style={{ background: `${s.color}15`, color: s.color, border: `1px solid ${s.color}30` }}
                 >
                   {s.icon}
                   <span
-                    className="absolute -top-2.5 -right-2.5 w-6 h-6 rounded-full text-[10px] font-bold flex items-center justify-center"
+                    className="absolute -top-2.5 -right-2.5 w-6 h-6 rounded-md text-[10px] font-bold flex items-center justify-center"
                     style={{ background: s.color, color: 'hsl(var(--deep))' }}
                   >
                     {s.num.replace('0', '')}

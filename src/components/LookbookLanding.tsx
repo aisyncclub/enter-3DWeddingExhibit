@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeftGlyph as ChevronLeft, ChevronRightGlyph as ChevronRight } from '@/components/icons/EditorialIcons';
+import { useNavigate } from 'react-router-dom';
 import { FilmGrain } from './landing/FilmGrain';
 import { CoverSlide } from './landing/slides/CoverSlide';
 import { ConceptSlide } from './landing/slides/ConceptSlide';
@@ -10,8 +11,15 @@ import { CTASlide } from './landing/slides/CTASlide';
 
 const SLIDE_COUNT = 6;
 const SLIDE_LABELS = ['Cover', 'Concept', 'Templates', 'Features', 'Gallery', 'Launch'];
+const SERVICE_NAV = [
+  { label: '템플릿', slide: 2 },
+  { label: '제작 흐름', slide: 3 },
+  { label: '샘플', slide: 4 },
+  { label: '가격', slide: 5 },
+];
 
 export function LookbookLanding() {
+  const navigate = useNavigate();
   const [current, setCurrent] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -85,12 +93,53 @@ export function LookbookLanding() {
     >
       <FilmGrain />
 
+      <nav className={`fixed top-0 inset-x-0 z-[60] flex items-center justify-between px-4 md:px-8 py-3 border-b backdrop-blur-md transition-colors ${
+        current === SLIDE_COUNT - 1
+          ? 'glass-panel-dark text-cream'
+          : 'glass-panel-quiet text-deep'
+      }`}>
+        <button
+          onClick={() => go(0)}
+          onPointerDown={(e) => e.stopPropagation()}
+          className="font-display italic text-xl leading-none"
+        >
+          Invitique
+        </button>
+        <div className="hidden sm:flex items-center gap-6">
+          {SERVICE_NAV.map((item) => (
+            <button
+              key={item.label}
+              onClick={() => go(item.slide)}
+              onPointerDown={(e) => e.stopPropagation()}
+              className={`font-sans text-xs tracking-[0.16em] uppercase transition-colors ${
+                current === item.slide
+                  ? current === SLIDE_COUNT - 1 ? 'text-caramel' : 'text-caramel'
+                  : current === SLIDE_COUNT - 1 ? 'text-cream/45 hover:text-cream' : 'text-deep/45 hover:text-deep'
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+        <button
+          onClick={() => navigate('/demo')}
+          onPointerDown={(e) => e.stopPropagation()}
+          className={`min-h-11 px-4 border font-sans text-xs font-semibold tracking-[0.12em] uppercase transition-colors ${
+            current === SLIDE_COUNT - 1
+              ? 'border-cream/25 text-cream hover:bg-cream hover:text-deep'
+              : 'border-deep/20 text-deep hover:bg-deep hover:text-cream'
+          }`}
+        >
+          데모 보기
+        </button>
+      </nav>
+
       {/* Slide strip */}
       <div
         className="flex h-full"
         style={{
           width: `${SLIDE_COUNT * 100}vw`,
-          transform: `translateX(-${current * 100}vw)`,
+          transform: `translateX(-${current * (100 / SLIDE_COUNT)}%)`,
           transition: 'transform 0.75s cubic-bezier(0.22, 1, 0.36, 1)',
         }}
       >
@@ -101,9 +150,9 @@ export function LookbookLanding() {
         ))}
       </div>
 
-      {/* Page indicator — top */}
+      {/* Page indicator */}
       {/* Adaptive color: cream text on dark CTA slide, deep text on light slides */}
-      <div className="fixed top-5 left-1/2 -translate-x-1/2 flex items-center gap-3 z-50">
+      <div className="fixed bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-2 md:gap-3 z-50">
         {SLIDE_LABELS.map((label, i) => {
           const onDark = current === SLIDE_COUNT - 1;
           const active = i === current;
@@ -114,7 +163,7 @@ export function LookbookLanding() {
                   ? onDark ? 'w-10 bg-cream' : 'w-10 bg-deep'
                   : onDark ? 'w-4 bg-cream/20 group-hover:bg-cream/50' : 'w-4 bg-deep/20 group-hover:bg-deep/40'
               }`} />
-              <span className={`font-sans text-[9px] tracking-[0.2em] uppercase transition-colors ${
+              <span className={`hidden sm:block font-sans text-[9px] tracking-[0.2em] uppercase transition-colors ${
                 active
                   ? onDark ? 'text-cream' : 'text-deep'
                   : onDark ? 'text-cream/25 group-hover:text-cream/60' : 'text-deep/25 group-hover:text-deep/55'
@@ -130,7 +179,7 @@ export function LookbookLanding() {
       {current > 0 && (
         <button
           onClick={() => go(current - 1)}
-          className={`fixed left-4 top-1/2 -translate-y-1/2 z-50 w-10 h-10 flex items-center justify-center border transition-all ${
+          className={`fixed left-4 top-1/2 -translate-y-1/2 z-50 w-10 h-10 hidden md:flex items-center justify-center border transition-all ${
             current === SLIDE_COUNT - 1
               ? 'border-cream/20 text-cream/50 hover:text-cream hover:border-cream/50'
               : 'border-deep/15 text-deep/40 hover:text-deep hover:border-deep/40'
@@ -142,7 +191,7 @@ export function LookbookLanding() {
       {current < SLIDE_COUNT - 1 && (
         <button
           onClick={() => go(current + 1)}
-          className={`fixed right-4 top-1/2 -translate-y-1/2 z-50 w-10 h-10 flex items-center justify-center border transition-all ${
+          className={`fixed right-4 top-1/2 -translate-y-1/2 z-50 w-10 h-10 hidden md:flex items-center justify-center border transition-all ${
             current === SLIDE_COUNT - 1
               ? 'border-cream/20 text-cream/50 hover:text-cream hover:border-cream/50'
               : 'border-deep/15 text-deep/40 hover:text-deep hover:border-deep/40'
@@ -153,7 +202,7 @@ export function LookbookLanding() {
       )}
 
       {/* Slide number bottom-right */}
-      <div className={`fixed bottom-5 right-6 z-50 flex items-baseline gap-1 transition-colors ${current === SLIDE_COUNT - 1 ? 'text-cream/50' : 'text-deep/40'}`}>
+      <div className={`fixed bottom-5 right-6 z-50 hidden md:flex items-baseline gap-1 transition-colors ${current === SLIDE_COUNT - 1 ? 'text-cream/50' : 'text-deep/40'}`}>
         <span className="font-display font-black text-xl">{String(current + 1).padStart(2, '0')}</span>
         <span className="font-sans text-xs opacity-40">/ {String(SLIDE_COUNT).padStart(2, '0')}</span>
       </div>

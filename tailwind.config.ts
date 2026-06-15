@@ -38,10 +38,12 @@ export default {
         // === Editorial Brand ===
         cream: 'hsl(var(--cream))',
         deep: 'hsl(var(--deep))',
+        'deep-mid': 'hsl(var(--deep-mid))',
         caramel: 'hsl(var(--caramel))',
         brick: 'hsl(var(--brick))',
         'dusty-rose': 'hsl(var(--dusty-rose))',
         'milk-tea': 'hsl(var(--milk-tea))',
+        sage: 'hsl(var(--sage))',
         sand: 'hsl(var(--sand))',
         // Gold for gallery UI
         gold: {

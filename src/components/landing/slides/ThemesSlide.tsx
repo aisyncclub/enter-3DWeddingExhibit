@@ -47,12 +47,12 @@ export function ThemesSlide({ active }: ThemesSlideProps) {
   return (
     <div className="w-screen h-screen bg-cream flex flex-col overflow-hidden select-none">
       {/* Top label */}
-      <div className="flex items-end justify-between px-8 pt-14 pb-5 border-b border-deep/8 shrink-0">
+      <div className="flex items-end justify-between px-5 md:px-8 pt-20 md:pt-24 pb-4 md:pb-5 border-b border-deep/8 shrink-0">
         <div>
-          <p className="font-sans text-[11px] tracking-[0.3em] uppercase text-caramel mb-1">Template Collection</p>
+          <p className="font-sans text-xs tracking-[0.28em] uppercase text-caramel mb-1">Template Collection</p>
           <h2 className="font-display text-3xl font-black text-deep">Three Styles</h2>
         </div>
-        <p className="font-sans text-xs text-deep/35 tracking-wide">클릭해서 미리보기</p>
+        <p className="hidden sm:block font-sans text-xs text-deep/35 tracking-wide">클릭해서 미리보기</p>
       </div>
 
       {/* Marquee */}
@@ -63,19 +63,19 @@ export function ThemesSlide({ active }: ThemesSlideProps) {
       />
 
       {/* Three columns */}
-      <div className="flex flex-1 min-h-0">
+      <div className="grid grid-cols-1 md:grid-cols-3 flex-1 min-h-0">
         {TEMPLATES.map((tpl, i) => (
           <motion.button
             key={tpl.key}
             onClick={() => navigate(`/demo?template=${tpl.key}`)}
-            className="flex-1 flex flex-col overflow-hidden border-r border-deep/8 last:border-r-0 group text-left relative"
+            className="grid grid-cols-[44%_56%] md:flex md:flex-col overflow-hidden border-b md:border-b-0 md:border-r border-deep/8 last:border-b-0 md:last:border-r-0 group text-left relative min-h-0"
           >
             {/* Photo */}
             <motion.div
               variants={imgReveal(i * 0.18)}
               initial="hidden"
               animate={active ? 'visible' : 'hidden'}
-              className="flex-1 overflow-hidden relative"
+              className="min-h-0 md:flex-1 overflow-hidden relative"
             >
               <img
                 src={tpl.image}
@@ -92,17 +92,17 @@ export function ThemesSlide({ active }: ThemesSlideProps) {
             </motion.div>
 
             {/* Bottom info */}
-            <div className="px-5 py-5 bg-cream border-t border-deep/8">
-              <div className="flex items-start justify-between mb-2">
+            <div className="glass-panel-quiet px-4 py-4 md:px-5 md:py-5 border-l md:border-l-0 md:border-t border-deep/8">
+              <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-2">
                 <div>
-                  <p className="font-sans text-[10px] tracking-[0.3em] uppercase text-deep/40 mb-0.5">{tpl.label}</p>
-                  <h3 className="font-display font-bold text-xl text-deep">{tpl.kr}</h3>
+                  <p className="font-sans text-xs tracking-[0.18em] uppercase text-deep/48 mb-1">{tpl.label}</p>
+                  <h3 className="font-display font-bold text-xl md:text-xl text-deep">{tpl.kr}</h3>
                 </div>
-                <span className="font-sans text-[10px] tracking-wider uppercase text-caramel/70 border border-caramel/25 px-2 py-0.5 mt-1">
+                <span className="w-fit font-sans text-xs tracking-wider uppercase text-caramel/80 border border-caramel/25 px-2 py-1 md:mt-1">
                   {tpl.swatchLabel}
                 </span>
               </div>
-              <p className="font-sans text-xs text-deep/45 leading-relaxed">{tpl.desc}</p>
+              <p className="font-sans text-sm text-deep/58 leading-relaxed">{tpl.desc}</p>
             </div>
           </motion.button>
         ))}

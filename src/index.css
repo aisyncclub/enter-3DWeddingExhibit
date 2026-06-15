@@ -7,10 +7,12 @@
     /* === Editorial Light Palette === */
     --cream: 34 44% 93%;           /* #F5EFE6 */
     --deep: 20 32% 13%;            /* #2B1D15 */
+    --deep-mid: 18 24% 18%;        /* refined dark surface */
     --caramel: 28 46% 59%;         /* #C4956A */
     --brick: 9 36% 47%;            /* #A85B4A */
     --dusty-rose: 0 32% 74%;       /* #D4A5A5 */
     --milk-tea: 30 20% 74%;        /* #CFC0AF */
+    --sage: 146 19% 52%;           /* balanced secondary accent */
     --off-white: 34 30% 97%;       /* near white */
     --sand: 34 25% 83%;            /* separator/muted */
 
@@ -166,6 +168,30 @@ html, body, #root {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* Polished translucent surfaces for service/product information. */
+.glass-panel {
+  background: rgba(255, 252, 246, 0.58);
+  border: 1px solid rgba(43, 29, 21, 0.12);
+  box-shadow: 0 18px 48px rgba(43, 29, 21, 0.08);
+  -webkit-backdrop-filter: blur(18px) saturate(1.12);
+  backdrop-filter: blur(18px) saturate(1.12);
+}
+
+.glass-panel-quiet {
+  background: rgba(255, 252, 246, 0.42);
+  border: 1px solid rgba(43, 29, 21, 0.10);
+  -webkit-backdrop-filter: blur(14px) saturate(1.08);
+  backdrop-filter: blur(14px) saturate(1.08);
+}
+
+.glass-panel-dark {
+  background: rgba(255, 248, 236, 0.075);
+  border: 1px solid rgba(255, 248, 236, 0.16);
+  box-shadow: 0 18px 64px rgba(0, 0, 0, 0.18);
+  -webkit-backdrop-filter: blur(20px) saturate(1.1);
+  backdrop-filter: blur(20px) saturate(1.1);
 }
 
 /* Gallery canvas */

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const THEMES = [
   {
     key: 'chapel',
+    template: 'lumiere',
     label: '채플',
     subtitle: 'Chapel',
     icon: <Church size={28} />,
@@ -15,6 +16,7 @@ const THEMES = [
   },
   {
     key: 'garden',
+    template: 'blanc',
     label: '정원',
     subtitle: 'Garden',
     icon: <Leaf size={28} />,
@@ -25,6 +27,7 @@ const THEMES = [
   },
   {
     key: 'night',
+    template: 'nuit',
     label: '밤하늘',
     subtitle: 'Night Sky',
     icon: <Moon size={28} />,
@@ -62,8 +65,8 @@ export function ThemePreviewSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.12 }}
-              onClick={() => navigate(`/demo?theme=${t.key}`)}
-              className="group text-left rounded-2xl overflow-hidden hover:scale-[1.02] hover:shadow-float transition-all duration-300 relative"
+              onClick={() => navigate(`/demo?template=${t.template}`)}
+              className="group text-left rounded-lg overflow-hidden hover:scale-[1.01] hover:shadow-float transition-all duration-300 relative"
               style={{ minHeight: '340px' }}
             >
               {/* Background photo */}
@@ -77,7 +80,7 @@ export function ThemePreviewSection() {
               <div className={`absolute inset-0 bg-gradient-to-t ${t.overlay}`} />
               {/* Bottom content */}
               <div className="absolute bottom-0 inset-x-0 p-6">
-                <div className="mb-3" style={{ color: t.accent }}>
+                <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-md border border-white/18 bg-white/8" style={{ color: t.accent }}>
                   {t.icon}
                 </div>
                 <div className="text-white/50 text-xs font-medium tracking-widest uppercase mb-0.5">{t.subtitle}</div>
