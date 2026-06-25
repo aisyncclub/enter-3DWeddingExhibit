@@ -208,7 +208,21 @@ export default function DemoPage() {
   const t = TEMPLATES[template];
 
   const copy = (text: string, key: string) => {
-    navigator.clipboard.writeText(text);
+    const fallback = () => {
+      const el = document.createElement('textarea');
+      el.value = text;
+      el.style.position = 'fixed';
+      el.style.opacity = '0';
+      document.body.appendChild(el);
+      el.select();
+      try { document.execCommand('copy'); } catch { /* noop */ }
+      document.body.removeChild(el);
+    };
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(text).catch(fallback);
+    } else {
+      fallback();
+    }
     setCopied(key);
     setTimeout(() => setCopied(null), 2000);
   };
