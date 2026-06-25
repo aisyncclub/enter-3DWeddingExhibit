@@ -3,18 +3,29 @@ import { useNavigate } from 'react-router-dom';
 import '../v2/v2.css';
 import { Button, SHADOW_CARD, SHADOW_SECONDARY } from '../v2/Button';
 import {
-  InvitationView, DEFAULT_DATA, type InvitationData, type Account,
+  InvitationView, DEFAULT_DATA, type InvitationData, type Account, type StoryChapter,
   INK, MUTED, SUBTLE, LINE, SURF,
 } from '../v2/invitation';
 import {
   ArrowLeftGlyph, CheckGlyph, BloomGlyph, ShareGlyph,
 } from '../components/icons/EditorialIcons';
+import { Sparkles, LogOut, Loader2 } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
 
 const MIN_PHOTOS = 4;
+const SUPABASE_URL = "https://spb-t4np0oy39ra2hg6a.supabase.opentrust.net";
 
 export default function CreatePage() {
   const navigate = useNavigate();
+  const { user, loading, signOut } = useAuth();
   const fileRef = useRef<HTMLInputElement>(null);
+
+  // auth guard
+  useEffect(() => {
+    if (!loading && !user) navigate('/auth?redirect=/create', { replace: true });
+  }, [user, loading, navigate]);
+
   const [photos, setPhotos] = useState<string[]>([]);
   const [groomName, setGroomName] = useState('지훈');
   const [brideName, setBrideName] = useState('서연');
@@ -28,6 +39,13 @@ export default function CreatePage() {
   const [accounts, setAccounts] = useState<Account[]>(DEFAULT_DATA.accounts);
   const [done, setDone] = useState(false);
   const [copied, setCopied] = useState(false);
+
+  // AI copy generation
+  const [storyHint, setStoryHint] = useState('');
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState('');
+  const [customIntro, setCustomIntro] = useState<string[] | undefined>(undefined);
+  const [customStory, setCustomStory] = useState<StoryChapter[] | undefined>(undefined);
 
   // revoke object URLs on unmount
   useEffect(() => () => { photos.forEach((u) => u.startsWith('blob:') && URL.revokeObjectURL(u)); }, [photos]);
@@ -49,6 +67,38 @@ export default function CreatePage() {
     dateLine, fullDate, time, hall, addr,
     photos: photos.length ? photos : DEFAULT_DATA.photos,
     accounts: accounts.filter((a) => a.num.trim()),
+    customIntro,
+    customStory,
+  };
+
+  const generateCopy = async () => {
+    setAiLoading(true);
+    setAiError('');
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch(`${SUPABASE_URL}/functions/v1/generate-invitation-copy`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${session?.access_token || ''}`,
+        },
+        body: JSON.stringify({
+          groomName: groomName || '지훈',
+          brideName: brideName || '서연',
+          fullDate,
+          hall,
+          storyHint,
+        }),
+      });
+      const json = await res.json();
+      if (json.error) throw new Error(json.error);
+      if (json.introLines) setCustomIntro(json.introLines);
+      if (json.story) setCustomStory(json.story);
+    } catch (err: unknown) {
+      setAiError(err instanceof Error ? err.message : 'AI 생성 중 오류가 발생했습니다. 다시 시도해 주세요.');
+    } finally {
+      setAiLoading(false);
+    }
   };
 
   const copyLink = () => {
@@ -63,6 +113,8 @@ export default function CreatePage() {
     if (navigator.clipboard?.writeText) navigator.clipboard.writeText(text).catch(fallback); else fallback();
     setCopied(true); setTimeout(() => setCopied(false), 2000);
   };
+
+  if (loading || !user) return null;
 
   /* ── completed view: full invitation preview ── */
   if (done) {
@@ -101,7 +153,10 @@ export default function CreatePage() {
           <span className="v2-mono text-[10px] tracking-[0.15em] uppercase" style={{ color: MUTED }}>홈</span>
         </button>
         <span className="v2-serif text-base" style={{ color: INK }}>청첩장 만들기</span>
-        <span className="w-10" />
+        <button onClick={signOut} className="flex items-center gap-1.5 hover:opacity-60 transition-opacity">
+          <LogOut size={14} style={{ color: MUTED }} />
+          <span className="v2-mono text-[10px] tracking-[0.15em] uppercase" style={{ color: MUTED }}>로그아웃</span>
+        </button>
       </nav>
 
       <div className="max-w-6xl mx-auto md:grid md:grid-cols-2 md:gap-10 px-5 md:px-8 py-8">
@@ -160,6 +215,58 @@ export default function CreatePage() {
             <Field label="시간" value={time} onChange={setTime} placeholder="오후 2시 · 입장 13:30" />
             <Field label="예식장" value={hall} onChange={setHall} placeholder="라움 채플홀" />
             <Field label="주소" value={addr} onChange={setAddr} placeholder="서울 강남구 언주로 564" />
+          </section>
+
+          {/* ── AI Copy Section ── */}
+          <section className="rounded-3xl p-5 space-y-4" style={{ background: '#F2EDE8', border: `1px solid ${LINE}` }}>
+            <div className="flex items-center gap-2">
+              <Sparkles size={14} style={{ color: INK }} />
+              <span className="v2-mono text-[11px] tracking-[0.2em] uppercase" style={{ color: INK }}>AI 문구 자동 생성</span>
+            </div>
+            <p className="text-[12px]" style={{ color: MUTED }}>
+              두 분만의 스토리 힌트를 적어주시면 AI가 감성적인 인트로 문구와 4개의 스토리를 작성해 드립니다.
+            </p>
+            <label className="block">
+              <span className="text-[10px]" style={{ color: SUBTLE }}>스토리 힌트 (선택)</span>
+              <textarea
+                value={storyHint}
+                onChange={(e) => setStoryHint(e.target.value)}
+                placeholder="예) 2022년 가을 전시회에서 처음 만났어요. 우산 하나로 비를 피하며 가까워졌고, 2025년 겨울에 프로포즈했어요."
+                rows={3}
+                className="w-full mt-1 rounded-xl px-4 py-3 text-sm outline-none resize-none"
+                style={{ background: '#fff', color: INK, border: `1px solid ${LINE}` }}
+              />
+            </label>
+            <button
+              onClick={generateCopy}
+              disabled={aiLoading}
+              className="w-full rounded-2xl py-3 flex items-center justify-center gap-2 text-sm font-medium transition-opacity"
+              style={{
+                background: INK,
+                color: '#FAF8F5',
+                opacity: aiLoading ? 0.6 : 1,
+                cursor: aiLoading ? 'not-allowed' : 'pointer',
+              }}
+            >
+              {aiLoading ? (
+                <><Loader2 size={14} className="animate-spin" /> AI가 문구를 쓰고 있어요…</>
+              ) : (
+                <><Sparkles size={14} /> 문구 자동 생성하기</>
+              )}
+            </button>
+            {aiError && <p className="text-[11px] text-center" style={{ color: '#C0392B' }}>{aiError}</p>}
+            {customIntro && !aiLoading && (
+              <div className="rounded-xl p-4 space-y-1" style={{ background: '#fff', border: `1px solid ${LINE}` }}>
+                <p className="text-[10px] mb-2" style={{ color: SUBTLE }}>생성된 인트로 문구</p>
+                {customIntro.filter(Boolean).map((line, i) => (
+                  <p key={i} className="text-[12px] leading-relaxed" style={{ color: MUTED }}>{line}</p>
+                ))}
+                <button onClick={() => { setCustomIntro(undefined); setCustomStory(undefined); }}
+                  className="text-[10px] mt-2 hover:opacity-60" style={{ color: SUBTLE }}>
+                  초기화 (기본 문구로 되돌리기)
+                </button>
+              </div>
+            )}
           </section>
 
           {/* account section */}

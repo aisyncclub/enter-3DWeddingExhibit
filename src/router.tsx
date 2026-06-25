@@ -3,6 +3,7 @@ import DemoPage from "./pages/DemoPage";
 import LandingV2 from "./pages/LandingV2";
 import DemoV2 from "./pages/DemoV2";
 import CreatePage from "./pages/CreatePage";
+import AuthPage from "./pages/AuthPage";
 import NotFound from "./pages/NotFound";
 
 export const routers = [
@@ -20,6 +21,11 @@ export const routers = [
     path: "/create",
     name: "create",
     element: <CreatePage />,
+  },
+  {
+    path: "/auth",
+    name: "auth",
+    element: <AuthPage />,
   },
   {
     path: "/v1",

@@ -18,10 +18,18 @@ export const SURF = '#F7F6F3';
 
 /* ── data model ───────────────────────────────────────────────── */
 export interface Account {
-  side: string;  // "신랑측"
-  name: string;  // "박지훈"
-  bank: string;  // "신한은행"
-  num:  string;  // "110-123-456789"
+  side: string;
+  name: string;
+  bank: string;
+  num:  string;
+}
+
+export interface StoryChapter {
+  num: string;
+  title: string;
+  sub: string;
+  text: string;
+  idx: number;
 }
 
 export interface InvitationData {
@@ -36,6 +44,8 @@ export interface InvitationData {
   addr: string;
   photos: string[];
   accounts: Account[];
+  customIntro?: string[];
+  customStory?: StoryChapter[];
 }
 
 export const DEFAULT_DATA: InvitationData = {
@@ -167,6 +177,10 @@ export function InvitationView({ data }: { data: InvitationData }) {
   const pics = data.photos.length ? data.photos : PHOTOS;
   const p = (i: number) => pics[i % pics.length];
 
+  // custom AI-generated or default copy
+  const introLines = data.customIntro ?? INTRO_LINES;
+  const story = data.customStory ?? STORY;
+
   const copy = (text: string, key: string) => {
     const fallback = () => {
       const el = document.createElement('textarea');
@@ -212,7 +226,7 @@ export function InvitationView({ data }: { data: InvitationData }) {
       <section className="pt-16">
         <Reveal className="text-center mb-7"><Label en="Invitation" /></Reveal>
         <div className="text-center space-y-1">
-          {INTRO_LINES.map((line, i) => line === ''
+          {introLines.map((line, i) => line === ''
             ? <div key={i} className="h-4" />
             : <Reveal key={i} delay={i * 0.06}><p className="text-[14px] leading-[2]" style={{ color: MUTED }}>{line}</p></Reveal>)}
         </div>
@@ -224,7 +238,7 @@ export function InvitationView({ data }: { data: InvitationData }) {
       <section>
         <SectionHead en="Our Story" kr="두 사람의 이야기" />
         <div className="space-y-12">
-          {STORY.map((ch, i) => (
+          {story.map((ch, i) => (
             <Reveal key={ch.num} delay={i * 0.05}>
               <div className="overflow-hidden rounded-2xl" style={{ boxShadow: SHADOW_CARD }}>
                 <img src={p(ch.idx)} alt="" crossOrigin="anonymous" className="w-full h-64 object-cover" />
