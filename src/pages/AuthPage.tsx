@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
+import { trackEvent } from '@enter-pro/analytics-sdk';
 import '../v2/v2.css';
 import { INK, MUTED, SUBTLE, LINE, SURF } from '../v2/invitation';
 import { BloomGlyph } from '../components/icons/EditorialIcons';
@@ -37,9 +38,11 @@ export default function AuthPage() {
           options: { emailRedirectTo: `${window.location.origin}/` },
         });
         if (error) throw error;
+        trackEvent('signup_completed', { eventType: 'conversion', properties: { redirect: redirect } });
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
+        trackEvent('login_completed', { eventType: 'custom', properties: { redirect: redirect } });
       }
       navigate(redirect, { replace: true });
     } catch (err: unknown) {
