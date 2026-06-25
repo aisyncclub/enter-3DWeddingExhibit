@@ -435,7 +435,7 @@ export default function DemoV2() {
             <p className="v2-mono text-[10px] tracking-[0.25em] uppercase" style={{ color: SUBTLE }}>
               Powered by <Serif>Invitique</Serif>
             </p>
-            <button onClick={() => navigate('/')} className="mt-4 v2-mono text-[11px] tracking-[0.1em] hover:opacity-60 transition-opacity" style={{ color: INK }}>
+            <button onClick={() => navigate('/create')} className="mt-4 v2-mono text-[11px] tracking-[0.1em] hover:opacity-60 transition-opacity" style={{ color: INK }}>
               나만의 청첩장 만들기 →
             </button>
           </div>
@@ -446,7 +446,7 @@ export default function DemoV2() {
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
         <div className="flex items-center gap-3 bg-white rounded-full pl-6 pr-2 py-2" style={{ boxShadow: SHADOW_SECONDARY }}>
           <span className="v2-serif text-2xl leading-none" style={{ color: INK }}>I</span>
-          <Button variant="primary" onClick={() => navigate('/')} className="!px-5 !py-2">청첩장 만들기</Button>
+          <Button variant="primary" onClick={() => navigate('/create')} className="!px-5 !py-2">청첩장 만들기</Button>
         </div>
       </div>
     </div>

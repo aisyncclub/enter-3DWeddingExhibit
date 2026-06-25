@@ -2,6 +2,7 @@ import Index from "./pages/Index";
 import DemoPage from "./pages/DemoPage";
 import LandingV2 from "./pages/LandingV2";
 import DemoV2 from "./pages/DemoV2";
+import CreatePage from "./pages/CreatePage";
 import NotFound from "./pages/NotFound";
 
 export const routers = [
@@ -14,6 +15,11 @@ export const routers = [
     path: "/demo",
     name: "demo",
     element: <DemoV2 />,
+  },
+  {
+    path: "/create",
+    name: "create",
+    element: <CreatePage />,
   },
   {
     path: "/v1",

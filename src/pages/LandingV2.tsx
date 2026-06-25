@@ -74,7 +74,7 @@ export default function LandingV2() {
 
         <div className="animate-fade-in-up flex flex-col sm:flex-row justify-center gap-3 md:gap-4 mt-6"
           style={fade(0.5)}>
-          <Button variant="primary" onClick={() => navigate('/demo')}>청첩장 만들기</Button>
+          <Button variant="primary" onClick={() => navigate('/create')}>청첩장 만들기</Button>
           <Button variant="secondary" onClick={() => navigate('/demo')}>데모 보기</Button>
         </div>
         </header>
