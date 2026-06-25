@@ -3,10 +3,12 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import '../v2/v2.css';
-import { INK, MUTED, SUBTLE, LINE, SURF } from '../v2/invitation';
+import { INK, MUTED, SUBTLE, LINE } from '../v2/invitation';
 import { BloomGlyph } from '../components/icons/EditorialIcons';
+import { Mail } from 'lucide-react';
 
 const BG = '#FAF8F5';
+const SURF = '#F2EDE8';
 
 export default function AuthPage() {
   const navigate = useNavigate();
@@ -19,6 +21,7 @@ export default function AuthPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
 
   useEffect(() => {
     if (!loading && user) navigate(redirect, { replace: true });
@@ -31,12 +34,17 @@ export default function AuthPage() {
     setSubmitting(true);
     try {
       if (mode === 'signup') {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: { emailRedirectTo: `${window.location.origin}/` },
         });
         if (error) throw error;
+        if (!data.session) {
+          // email confirmation required
+          setEmailSent(true);
+          return;
+        }
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
@@ -49,6 +57,36 @@ export default function AuthPage() {
       setSubmitting(false);
     }
   };
+
+  /* ── email sent state ── */
+  if (emailSent) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center px-6 py-16" style={{ background: BG }}>
+        <div className="w-full max-w-sm text-center">
+          <div className="flex items-center justify-center w-14 h-14 rounded-full mx-auto mb-6" style={{ background: SURF }}>
+            <Mail size={24} style={{ color: INK }} />
+          </div>
+          <h1 className="v2-serif text-[26px]" style={{ color: INK }}>이메일을 확인해 주세요</h1>
+          <p className="text-[13px] mt-3 leading-relaxed" style={{ color: MUTED }}>
+            <strong>{email}</strong>로 인증 링크가 발송되었습니다.<br />
+            링크를 클릭하면 자동으로 로그인됩니다.
+          </p>
+          <div className="mt-8 space-y-3">
+            <button
+              onClick={() => { setEmailSent(false); setMode('login'); }}
+              className="w-full rounded-2xl py-3 text-sm font-medium"
+              style={{ background: INK, color: '#FAF8F5' }}
+            >
+              로그인 화면으로
+            </button>
+            <button onClick={() => navigate('/')} className="text-[11px]" style={{ color: SUBTLE }}>
+              ← 메인으로 돌아가기
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 py-16" style={{ background: BG }}>
