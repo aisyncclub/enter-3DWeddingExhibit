@@ -12,7 +12,6 @@ import {
 import { Sparkles, LogOut, Loader2 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
-import { trackEvent } from '@enter-pro/analytics-sdk';
 
 const MIN_PHOTOS = 4;
 const SUPABASE_URL = "https://spb-t4np0oy39ra2hg6a.supabase.opentrust.net";
@@ -95,14 +94,6 @@ export default function CreatePage() {
       if (json.error) throw new Error(json.error);
       if (json.introLines) setCustomIntro(json.introLines);
       if (json.story) setCustomStory(json.story);
-      trackEvent('ai_copy_generated', {
-        eventType: 'custom',
-        properties: {
-          has_story_hint: storyHint.trim().length > 0,
-          groom_name: groomName,
-          bride_name: brideName,
-        },
-      });
     } catch (err: unknown) {
       setAiError(err instanceof Error ? err.message : 'AI 생성 중 오류가 발생했습니다. 다시 시도해 주세요.');
     } finally {
@@ -313,19 +304,7 @@ export default function CreatePage() {
           </section>
 
           <div className="pt-2 pb-4">
-            <Button variant="primary" className="w-full" onClick={() => {
-              if (ready) {
-                trackEvent('invitation_completed', {
-                  eventType: 'conversion',
-                  properties: {
-                    photo_count: photos.length,
-                    has_ai_copy: customIntro !== undefined,
-                    account_count: accounts.filter((a) => a.num.trim()).length,
-                  },
-                });
-                setDone(true);
-              }
-            }}
+            <Button variant="primary" className="w-full" onClick={() => ready && setDone(true)}
               style={!ready ? { opacity: 0.4, pointerEvents: 'none' } : undefined}>
               {ready ? '청첩장 완성하기' : `사진을 ${MIN_PHOTOS}장 이상 올려주세요`}
             </Button>

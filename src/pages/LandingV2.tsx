@@ -6,7 +6,6 @@ import { useMouseTrail, TrailImages } from '../v2/MouseTrail';
 import {
   TestimonialQuote, Pricing, Carousel, Templates, Partner, Footer, BottomNav,
 } from '../v2/sections';
-import { trackEvent } from '@enter-pro/analytics-sdk';
 
 const fade = (delay: number) => ({ animationDelay: `${delay}s` });
 
@@ -75,7 +74,7 @@ export default function LandingV2() {
 
         <div className="animate-fade-in-up flex flex-col sm:flex-row justify-center gap-3 md:gap-4 mt-6"
           style={fade(0.5)}>
-          <Button variant="primary" onClick={() => { trackEvent('create_cta_clicked', { eventType: 'custom', properties: { source: 'landing_hero' } }); navigate('/create'); }}>청첩장 만들기</Button>
+          <Button variant="primary" onClick={() => navigate('/create')}>청첩장 만들기</Button>
           <Button variant="secondary" onClick={() => navigate('/demo')}>데모 보기</Button>
         </div>
         </header>
