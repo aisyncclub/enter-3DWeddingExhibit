@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../v2/v2.css';
 import { Button, SHADOW_CARD, SHADOW_SECONDARY } from '../v2/Button';
 import {
-  InvitationView, DEFAULT_DATA, type InvitationData,
+  InvitationView, DEFAULT_DATA, type InvitationData, type Account,
   INK, MUTED, SUBTLE, LINE, SURF,
 } from '../v2/invitation';
 import {
@@ -25,6 +25,7 @@ export default function CreatePage() {
   const [time, setTime] = useState('오후 2시 · 입장 13:30');
   const [hall, setHall] = useState('라움 채플홀');
   const [addr, setAddr] = useState('서울 강남구 언주로 564');
+  const [accounts, setAccounts] = useState<Account[]>(DEFAULT_DATA.accounts);
   const [done, setDone] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -47,6 +48,7 @@ export default function CreatePage() {
     brideEng: brideEng || 'SEOYEON',
     dateLine, fullDate, time, hall, addr,
     photos: photos.length ? photos : DEFAULT_DATA.photos,
+    accounts: accounts.filter((a) => a.num.trim()),
   };
 
   const copyLink = () => {
@@ -160,6 +162,40 @@ export default function CreatePage() {
             <Field label="주소" value={addr} onChange={setAddr} placeholder="서울 강남구 언주로 564" />
           </section>
 
+          {/* account section */}
+          <section className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="v2-mono text-[11px] tracking-[0.2em] uppercase" style={{ color: INK }}>계좌 정보</span>
+              <button
+                type="button"
+                onClick={() => setAccounts((prev) => [...prev, { side: '', name: '', bank: '', num: '' }])}
+                className="text-xs rounded-full px-3 py-1 transition-opacity hover:opacity-70"
+                style={{ background: SURF, color: INK, border: `1px solid ${LINE}` }}
+              >+ 계좌 추가</button>
+            </div>
+            {accounts.map((acc, i) => (
+              <div key={i} className="rounded-2xl p-4 space-y-2" style={{ background: SURF, border: `1px solid ${LINE}` }}>
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs font-medium" style={{ color: MUTED }}>{i === 0 ? '신랑측' : i === 1 ? '신부측' : `${i + 1}번째`} 계좌</span>
+                  {accounts.length > 1 && (
+                    <button type="button" onClick={() => setAccounts((prev) => prev.filter((_, idx) => idx !== i))}
+                      className="text-xs hover:opacity-60 transition-opacity" style={{ color: MUTED }}>삭제</button>
+                  )}
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <AccountField label="구분 (신랑측/신부측)" value={acc.side} placeholder="신랑측"
+                    onChange={(v) => setAccounts((prev) => prev.map((a, idx) => idx === i ? { ...a, side: v } : a))} />
+                  <AccountField label="예금주" value={acc.name} placeholder="박지훈"
+                    onChange={(v) => setAccounts((prev) => prev.map((a, idx) => idx === i ? { ...a, name: v } : a))} />
+                </div>
+                <AccountField label="은행" value={acc.bank} placeholder="신한은행"
+                  onChange={(v) => setAccounts((prev) => prev.map((a, idx) => idx === i ? { ...a, bank: v } : a))} />
+                <AccountField label="계좌번호" value={acc.num} placeholder="110-123-456789"
+                  onChange={(v) => setAccounts((prev) => prev.map((a, idx) => idx === i ? { ...a, num: v } : a))} />
+              </div>
+            ))}
+          </section>
+
           <div className="pt-2 pb-4">
             <Button variant="primary" className="w-full" onClick={() => ready && setDone(true)}
               style={!ready ? { opacity: 0.4, pointerEvents: 'none' } : undefined}>
@@ -193,6 +229,17 @@ function Field({ label, value, onChange, placeholder }: { label: string; value: 
       <input value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder}
         className="w-full mt-1 rounded-xl px-4 py-2.5 text-sm outline-none transition-shadow focus:shadow-md"
         style={{ background: SURF, color: INK, border: `1px solid ${LINE}` }} />
+    </label>
+  );
+}
+
+function AccountField({ label, value, onChange, placeholder }: { label: string; value: string; onChange: (v: string) => void; placeholder?: string }) {
+  return (
+    <label className="block">
+      <span className="text-[10px]" style={{ color: SUBTLE }}>{label}</span>
+      <input value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder}
+        className="w-full mt-0.5 rounded-lg px-3 py-2 text-sm outline-none"
+        style={{ background: '#fff', color: INK, border: `1px solid ${LINE}` }} />
     </label>
   );
 }

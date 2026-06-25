@@ -17,17 +17,25 @@ export const LINE = 'rgba(5,26,36,0.10)';
 export const SURF = '#F7F6F3';
 
 /* ── data model ───────────────────────────────────────────────── */
+export interface Account {
+  side: string;  // "신랑측"
+  name: string;  // "박지훈"
+  bank: string;  // "신한은행"
+  num:  string;  // "110-123-456789"
+}
+
 export interface InvitationData {
   groomName: string;
   brideName: string;
   groomEng: string;
   brideEng: string;
-  dateLine: string;   // "2026 · 10 · 24"
-  fullDate: string;   // "2026년 10월 24일 토요일"
-  time: string;       // "오후 2시 · 입장 13:30"
-  hall: string;       // "라움 채플홀"
-  addr: string;       // "서울 강남구 언주로 564"
-  photos: string[];   // user images; sample by default
+  dateLine: string;
+  fullDate: string;
+  time: string;
+  hall: string;
+  addr: string;
+  photos: string[];
+  accounts: Account[];
 }
 
 export const DEFAULT_DATA: InvitationData = {
@@ -41,6 +49,10 @@ export const DEFAULT_DATA: InvitationData = {
   hall: '라움 채플홀',
   addr: '서울 강남구 언주로 564',
   photos: PHOTOS,
+  accounts: [
+    { side: '신랑측', name: '박지훈', bank: '신한은행',   num: '110-123-456789'  },
+    { side: '신부측', name: '이서연', bank: '카카오뱅크', num: '3333-01-2345678' },
+  ],
 };
 
 /* ── fixed sample copy (only images / names / date are user-driven) ── */
@@ -66,11 +78,6 @@ const SAMPLE_MSGS = [
   { name: '박민재', msg: '지훈아, 드디어 결혼하는구나! 서연씨 잘 부탁해. 행복하게 살아라.', date: '09.14' },
   { name: '김지영', msg: '서연아 정말 부럽다! 두 분 너무 잘 어울려요. 오래오래 사랑하세요.', date: '09.15' },
 ];
-
-const ACCOUNTS = [
-  { key: 'groom', side: '신랑측', name: '박지훈', bank: '신한은행', num: '110-123-456789' },
-  { key: 'bride', side: '신부측', name: '이서연', bank: '카카오뱅크', num: '3333-01-2345678' },
-] as const;
 
 /* ── shared helpers ───────────────────────────────────────────── */
 export function Reveal({ children, delay = 0, className = '', style }: { children: ReactNode; delay?: number; className?: string; style?: CSSProperties }) {
@@ -368,31 +375,41 @@ export function InvitationView({ data }: { data: InvitationData }) {
       {/* ── 8. ACCOUNT ── */}
       <section>
         <SectionHead en="Account" kr="마음 전하기" />
+        <p className="text-center text-xs mb-6" style={{ color: MUTED }}>
+          축하의 마음을 전하실 분들을 위해 안내드립니다.
+        </p>
         <div className="space-y-2.5">
-          {ACCOUNTS.map((acc) => (
-            <div key={acc.key} className="rounded-2xl overflow-hidden" style={{ background: SURF }}>
-              <button onClick={() => setOpenAcct(openAcct === acc.key ? null : acc.key)} className="w-full flex items-center justify-between px-5 py-4">
-                <div className="flex items-center gap-3">
-                  <EnvelopeGlyph size={15} style={{ color: INK }} />
-                  <span className="text-sm" style={{ color: INK }}>{acc.side} — {acc.name}</span>
-                </div>
-                <span style={{ transform: openAcct === acc.key ? 'rotate(180deg)' : 'none', transition: 'transform .25s', display: 'inline-flex' }}>
-                  <ChevronDownGlyph size={15} style={{ color: MUTED }} />
-                </span>
-              </button>
-              {openAcct === acc.key && (
-                <div className="flex items-center justify-between px-5 py-4 border-t" style={{ borderColor: LINE }}>
-                  <div>
-                    <p className="text-[11px]" style={{ color: MUTED }}>{acc.bank}</p>
-                    <p className="text-sm font-medium" style={{ color: INK }}>{acc.num}</p>
+          {data.accounts.map((acc, i) => {
+            const k = `acct-${i}`;
+            return (
+              <div key={k} className="rounded-2xl overflow-hidden" style={{ background: SURF }}>
+                <button onClick={() => setOpenAcct(openAcct === k ? null : k)} className="w-full flex items-center justify-between px-5 py-4">
+                  <div className="flex items-center gap-3">
+                    <EnvelopeGlyph size={15} style={{ color: INK }} />
+                    <span className="text-sm" style={{ color: INK }}>{acc.side} — {acc.name}</span>
                   </div>
-                  <button onClick={() => copy(acc.num, acc.key)} className="flex items-center gap-1.5 rounded-full px-3.5 py-2 text-xs" style={{ background: '#fff', color: INK, boxShadow: SHADOW_SECONDARY }}>
-                    {copied === acc.key ? <CheckGlyph size={12} /> : <CopyGlyph size={12} />}{copied === acc.key ? '복사됨' : '복사'}
-                  </button>
-                </div>
-              )}
-            </div>
-          ))}
+                  <span style={{ transform: openAcct === k ? 'rotate(180deg)' : 'none', transition: 'transform .25s', display: 'inline-flex' }}>
+                    <ChevronDownGlyph size={15} style={{ color: MUTED }} />
+                  </span>
+                </button>
+                {openAcct === k && (
+                  <div className="flex items-center justify-between px-5 py-4 border-t" style={{ borderColor: LINE }}>
+                    <div>
+                      <p className="text-[11px]" style={{ color: MUTED }}>{acc.bank}</p>
+                      <p className="text-sm font-semibold tracking-wide" style={{ color: INK }}>{acc.num}</p>
+                      <p className="text-[11px] mt-0.5" style={{ color: SUBTLE }}>예금주 {acc.name}</p>
+                    </div>
+                    <button onClick={() => copy(acc.num, k)}
+                      className="flex items-center gap-1.5 rounded-full px-3.5 py-2 text-xs transition-transform hover:-translate-y-0.5"
+                      style={{ background: '#fff', color: INK, boxShadow: SHADOW_SECONDARY }}>
+                      {copied === k ? <CheckGlyph size={12} /> : <CopyGlyph size={12} />}
+                      {copied === k ? '복사됨' : '복사'}
+                    </button>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
         <Ornament />
       </section>
