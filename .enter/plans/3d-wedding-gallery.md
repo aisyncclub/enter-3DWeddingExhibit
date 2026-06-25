@@ -1,75 +1,42 @@
-# 서비스 리디자인: 3D 갤러리 → 디지털 청첩장 제작 서비스
+# Plan: 인증 + AI 청첩장 문구 자동 생성
 
-## 변경 이유
-기존 3D 갤러리 청첩장 서비스에서 실제 온라인 청첩장 제작·쇼케이스 서비스로 전환.
-3D 관련 코드 제거, 3가지 템플릿 기반 청첩장 쇼케이스 데모 신규 제작.
+## 구현 범위
 
----
+### 1. 인증 (Authentication)
+- Supabase email/password 로그인 + 회원가입
+- `/auth` 페이지 (v2 디자인 시스템 적용)
+- `/create` 라우트 → 비로그인 시 `/auth?redirect=/create` 로 리다이렉트
+- AuthContext로 전역 세션 관리
 
-## 변경 범위
+### 2. AI 문구 생성 (MiniMax M3)
+- Edge Function `generate-invitation-copy` — stream: false JSON 반환
+- 입력: groomName, brideName, storyHint (선택적 짧은 설명)
+- 출력: `{ introLines: string[], story: StoryChapter[] }`
+- CreatePage에 "AI 문구 자동 생성" 섹션 + 생성 버튼 + 로딩 상태
+- 생성된 인트로·스토리가 InvitationView 미리보기에 실시간 반영
 
-### 1. DemoPage (`src/pages/DemoPage.tsx`) — 완전 재작성
-- 3D 갤러리 제거 (GalleryCanvas, ThemeSwitcher, PhotoUploader, PhotoFocusModal 임포트 삭제)
-- 상단: 템플릿 탭 3개 (Blanc / Lumière / Nuit) — 선택 시 아래 청첩장 변경
-- 본문: 해당 템플릿 스타일의 **완성된 샘플 청첩장** 스크롤 페이지
-  - 커버 (사진 + 이름 + 날짜)
-  - 초대 메시지
-  - 일시·장소 정보
-  - 사진 갤러리 (4장 그리드)
-  - 혼주·RSVP
-  - 푸터
-- 하단 고정 바: "나만의 청첩장 만들기" CTA
-
-### 2. 랜딩 슬라이드 — 문구/내용 업데이트
-
-| 슬라이드 | 파일 | 변경 내용 |
-|---|---|---|
-| Cover (1) | `CoverSlide.tsx` | "청첩장을 / 아름답게" 문구, 부제 변경 |
-| Concept (2) | `ConceptSlide.tsx` | "Beyond the Card" — 디지털 청첩장 제작 가치 |
-| Templates (3) | `ThemesSlide.tsx` | 3D 테마 → 3가지 청첩장 템플릿 쇼케이스 |
-| Features (4) | `ExperienceSlide.tsx` | 제작 단계 → 서비스 핵심 기능 3가지 |
-| Gallery (5) | `PhotoSlide.tsx` | 문구만 청첩장 서비스 맥락으로 수정 |
-| CTA (6) | `CTASlide.tsx` | 문구, 플랜 내용 업데이트 |
-
-### 3. 3D 관련 파일 — 제거
-- `src/components/gallery/` 폴더 전체 삭제
-- `src/components/ThemeSwitcher.tsx` 삭제
-- `src/components/PhotoUploader.tsx` 삭제
-- `src/components/PhotoFocusModal.tsx` 삭제
+### 3. 데이터 모델 확장
+- `invitation.tsx`에 `customIntro?: string[]`, `customStory?: StoryChapter[]` 추가
+- InvitationView 내부에서 `data.customIntro ?? INTRO_LINES` 방식으로 폴백
 
 ---
 
-## 3가지 템플릿 스펙
+## 파일 변경 목록
 
-### Blanc (미니멀)
-- 배경: 순백 `#FFFFFF`
-- 텍스트: 딥브라운 `--deep`
-- 포인트: 연한 세이지 라인
-- 폰트: Pretendard 위주
-
-### Lumière (크림 웜톤)
-- 배경: 크림 `--cream`
-- 텍스트: 딥브라운
-- 포인트: 캐러멜 `--caramel`
-- 폰트: Playfair Display 헤딩 + Pretendard 바디
-
-### Nuit (다크 엘레강스)
-- 배경: 딥브라운 `--deep`
-- 텍스트: 크림 `--cream`
-- 포인트: 골드 `--gold`
-- 폰트: Playfair Display
-
----
-
-## 재사용할 기존 요소
-- `FilmGrain`, `MarqueeText` — 그대로 유지
-- `LookbookLanding` 구조 — 슬라이드 내용만 교체
-- 디자인 토큰 (index.css, tailwind.config.ts) — 변경 없음
-- 실제 웨딩 사진 OSS URL 8개 — 그대로 활용
+| 파일 | 작업 |
+|------|------|
+| `src/contexts/AuthContext.tsx` | 신규 — Supabase auth 세션 관리 |
+| `src/pages/AuthPage.tsx` | 신규 — 로그인/회원가입 UI |
+| `src/v2/invitation.tsx` | 수정 — customIntro, customStory 필드 추가 |
+| `src/pages/CreatePage.tsx` | 수정 — 인증 가드 + AI 생성 UI 추가 |
+| `src/router.tsx` | 수정 — `/auth` 라우트 추가 |
+| `supabase/functions/generate-invitation-copy/index.ts` | 신규 — Edge Function |
+| `src/main.tsx` | 수정 — AuthProvider 래핑 |
 
 ---
 
 ## 검증
-1. `/` — 6슬라이드 네비 정상, 문구 업데이트 확인
-2. `/demo` — 템플릿 탭 전환 시 청첩장 스타일 변경 확인
-3. 3D 관련 임포트 오류 없음 (lint pass)
+- `/create` 비로그인 접근 → `/auth`로 리다이렉트
+- 로그인 후 `/create` 복귀
+- AI 생성 버튼 클릭 → 로딩 → 인트로/스토리 자동 입력
+- 생성된 문구가 우측 미리보기에 즉시 반영
